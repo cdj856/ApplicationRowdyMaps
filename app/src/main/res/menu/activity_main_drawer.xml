@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_building"
+            android:icon="@mipmap/ic_account_balance_black_24dp"
+            android:title="Building" />
+        <item
+            android:id="@+id/nav_routes"
+            android:icon="@mipmap/ic_accessible_black_24dp"
+            android:title="Accessible Routes" />
+        <item
+            android:id="@+id/nav_gps"
+            android:icon="@mipmap/ic_open_with_black_24dp"
+            android:title="GPS" />
+        <item
+            android:id="@+id/nav_fiends"
+            android:icon="@mipmap/ic_supervisor_account_black_24dp"
+            android:title="Friends" />
+
+    </group>
+
+    <item android:title="LOGIN">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="LOGIN" />
+
+        </menu>
+    </item>
+
+</menu>
