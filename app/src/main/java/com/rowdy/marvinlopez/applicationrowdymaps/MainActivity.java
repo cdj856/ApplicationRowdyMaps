@@ -1,8 +1,14 @@
 package com.rowdy.marvinlopez.applicationrowdymaps;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,9 +18,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,OnMapReadyCallback {
+
+    private GoogleApiClient mGoogleApiClient;
+    private TextView mLatitudeText;
+    private TextView mLongitudeText;
+    private GoogleMap mMap;
+    protected Location mLastLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +56,15 @@ public class MainActivity extends AppCompatActivity
             }
         });*/
 
+        if (mGoogleApiClient == null) { //mGoogleApiClient
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
+        mGoogleApiClient.connect();
+        // added map code before here
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -40,6 +73,10 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        //maps
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this); // to call onmap
     }
 
     @Override
@@ -82,16 +119,87 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_building) {
             // Handle the nav_building action
+            Toast toast = Toast.makeText(this, "Building list would show", Toast.LENGTH_SHORT);
+            toast.show();
         } else if (id == R.id.nav_routes) {
-
+            Toast toast = Toast.makeText(this, "Turned ON Accessible Routes", Toast.LENGTH_SHORT);
+            toast.show();
         } else if (id == R.id.nav_gps) {
-
+            Toast toast = Toast.makeText(this, "GPS OFF", Toast.LENGTH_SHORT);
+            toast.show();
         } else if (id == R.id.nav_fiends) {
+            Toast toast = Toast.makeText(this, "You have no friends...Sorry", Toast.LENGTH_SHORT);
+            toast.show();
+        } else if (id == R.id.nav_login) {
+            Intent i = new Intent(
+                    MainActivity.this,
+                    LoginActivity.class);
 
+            startActivity(i);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    //@Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+
+        //Add a marker in utsa and move the camera
+        LatLng utsa = new LatLng(29.583844, -98.618608);
+        mMap.addMarker(new MarkerOptions().position(utsa).title("you are here"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(utsa));
+        //mMap.moveCamera(CameraUpdateFactory.zoomIn());
+        mMap.setMinZoomPreference(20.0F);
+        mMap.setMaxZoomPreference(17.0f);
+
+
+    }
+
+    //added mylocation code here onStart() and onStop()
+    protected void onStart() {
+        mGoogleApiClient.connect();
+        super.onStart();
+    }
+
+    protected void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
+    }
+
+
+    @Override
+    public void onConnected(Bundle connectionHint) {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if(mLastLocation != null){
+            mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
+            mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        Toast.makeText(this,"onConnectionSuspended",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Toast.makeText(this,"onConnectionSuspended",Toast.LENGTH_SHORT).show();
     }
 }

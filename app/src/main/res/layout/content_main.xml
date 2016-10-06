@@ -13,8 +13,7 @@
     tools:context="com.rowdy.marvinlopez.applicationrowdymaps.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Map Goes Here" />
+
+
+
 </RelativeLayout>
