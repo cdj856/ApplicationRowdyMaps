@@ -52,13 +52,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
-         mMap = googleMap;
-
+        mMap = googleMap;
+        /*
         //Add a marker in Sydney and move the camera
         LatLng utsa = new LatLng(29.583844, -98.618608);
         mMap.addMarker(new MarkerOptions().position(utsa).title("Marker at UTSA"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(utsa));
-
+        */
 
     }
 }

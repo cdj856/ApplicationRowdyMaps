@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.RelativeLayout;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -32,13 +33,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,OnMapReadyCallback {
+        implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback {
 
     private GoogleApiClient mGoogleApiClient;
     private TextView mLatitudeText;
     private TextView mLongitudeText;
     private GoogleMap mMap;
+    View mapView;
     protected Location mLastLocation;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +57,7 @@ public class MainActivity extends AppCompatActivity
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });*/
+        }); */
 
         if (mGoogleApiClient == null) { //mGoogleApiClient
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -76,7 +79,20 @@ public class MainActivity extends AppCompatActivity
         //maps
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+        /*if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }*/
+       // mMap.setMyLocationEnabled(false);
+       // mapView = mapFragment.getView();
         mapFragment.getMapAsync(this); // to call onmap
+
     }
 
     @Override
@@ -152,9 +168,24 @@ public class MainActivity extends AppCompatActivity
         LatLng utsa = new LatLng(29.583844, -98.618608);
         mMap.addMarker(new MarkerOptions().position(utsa).title("you are here"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(utsa));
+       // mapView.
         //mMap.moveCamera(CameraUpdateFactory.zoomIn());
         mMap.setMinZoomPreference(20.0F);
         mMap.setMaxZoomPreference(17.0f);
+
+        //Added code here for my location
+        /*if (mapView != null &&
+                mapView.findViewById(Integer.parseInt("1")) != null) {
+            // Get the button view
+            View locationButton = ((View) mapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
+            // and next place it, on bottom right (as Google Maps app)
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)
+                    locationButton.getLayoutParams();
+            // position on right bottom
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+            layoutParams.setMargins(0, 0, 30, 30);
+        }*/
 
 
     }
