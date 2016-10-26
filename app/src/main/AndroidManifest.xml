@@ -49,6 +49,8 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
+        <activity android:name=".BuildingActivity"
+            android:label="buldings" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"></activity>
