@@ -29,6 +29,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,19 +92,30 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button registerButton = (Button) findViewById(R.id.register_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+        /*Button mRegisterButton = (Button) findViewById(R.id.register_button);
+        mRegisterButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),
+                Intent i = new Intent(
+                        LoginActivity.this,
                         RegisterActivity.class);
 
                 startActivity(i);
+                Toast toast = Toast.makeText(getApplicationContext(), "register Test", Toast.LENGTH_SHORT);
+                toast.show();
             }
         });
-
+       */
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+    public void sendToRegister(View view) {
+        // Do something in response to button
+        Intent i = new Intent(
+                LoginActivity.this,
+                RegisterActivity.class);
+
+        startActivity(i);
     }
 
     private void populateAutoComplete() {
