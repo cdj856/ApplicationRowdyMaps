@@ -41,7 +41,7 @@ public class RegisterActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        /*
+
         inputFullName = (EditText) findViewById(R.id.name);
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
@@ -49,7 +49,7 @@ public class RegisterActivity extends Activity {
 
         // Progress dialog
         pDialog = new ProgressDialog(this);
-        pDialog.setCancelable(false);*/
+        pDialog.setCancelable(false);
 
         // Session manager
         //session = new SessionManager(getApplicationContext());
@@ -67,7 +67,7 @@ public class RegisterActivity extends Activity {
         }*/
 
         // Register Button Click event
-        /*
+
         btnRegister.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 String name = inputFullName.getText().toString().trim();
@@ -82,7 +82,7 @@ public class RegisterActivity extends Activity {
                             .show();
                 }
             }
-        });*/
+        });
         /*
         // Link to Login Screen
         btnLinkToLogin.setOnClickListener(new View.OnClickListener() {
@@ -112,7 +112,7 @@ public class RegisterActivity extends Activity {
         showDialog();
 
         StringRequest strReq = new StringRequest(Method.POST,
-                "https://easel1.fulgentcorp.com/bifrost/ws.php?json=", new Response.Listener<String>() {
+                "?", new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
