@@ -53,6 +53,7 @@ public class BuildingActivity extends AppCompatActivity{
                         String building = String.valueOf(parent.getItemAtPosition(position));
                         for(int i = 0; i < points.length;i++) {
                             if ((points[i][0].equals(building))) {
+                                temp = points[i][1]+", "+points[i][2];
                                 lng = Double.parseDouble(points[i][1]);
                                 lat = Double.parseDouble(points[i][2]);
                                 //Toast.makeText(BuildingActivity.this, points[i][1], Toast.LENGTH_LONG).show();
@@ -60,8 +61,11 @@ public class BuildingActivity extends AppCompatActivity{
 
                         }
                         //LatLng buildingpoint = new LatLng(29.583844, -98.618608);
-                        //Toast.makeText(BuildingActivity.this,points[0][0],Toast.LENGTH_LONG).show();
+
+                        Toast.makeText(BuildingActivity.this,temp,Toast.LENGTH_LONG).show();
                             MainActivity.buildingpoint = new LatLng(lng, lat);
+
+
 
                         finish();
 
