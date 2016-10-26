@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        /*Button mRegisterButton = (Button) findViewById(R.id.register_button); // changed your code from mEmailSignInButton to mRegisterButton
+        Button mRegisterButton = (Button) findViewById(R.id.register_button); // changed your code from mEmailSignInButton to mRegisterButton
         mRegisterButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 toast.show();
             }
         });
-       */
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
