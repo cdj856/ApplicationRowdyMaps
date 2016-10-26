@@ -63,7 +63,8 @@ public class BuildingActivity extends AppCompatActivity{
                         //LatLng buildingpoint = new LatLng(29.583844, -98.618608);
 
                         Toast.makeText(BuildingActivity.this,temp,Toast.LENGTH_LONG).show();
-                            MainActivity.buildingpoint = new LatLng(lng, lat);
+                        MainActivity.buildingpoint = new LatLng(lng, lat);
+
 
 
 
