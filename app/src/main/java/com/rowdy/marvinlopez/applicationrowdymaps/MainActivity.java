@@ -2,6 +2,8 @@ package com.rowdy.marvinlopez.applicationrowdymaps;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,8 +31,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback {
@@ -39,7 +45,9 @@ public class MainActivity extends AppCompatActivity
     private TextView mLatitudeText;
     private TextView mLongitudeText;
     private GoogleMap mMap;
-    static LatLng buildingpoint;
+    private Polyline route;
+    static Marker marker;
+    static LatLng buildingpoint =new LatLng(29.583844, -98.618608);
     View mapView;
     protected Location mLastLocation;
 
@@ -91,7 +99,9 @@ public class MainActivity extends AppCompatActivity
             return;
         }
         mMap.setMyLocationEnabled(false);
-    */    mapView = mapFragment.getView();
+    */
+       // bPoint(buildingpoint);
+        mapView = mapFragment.getView();
         mapFragment.getMapAsync(this); // to call onmap
 
     }
@@ -166,21 +176,32 @@ public class MainActivity extends AppCompatActivity
 
     //@Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-
+        this.mMap = googleMap;
+         //this.googleMap = googleMap;
+       // initializeMap();
         //Add a marker in utsa and move the camera
         LatLng utsa = new LatLng(29.583844, -98.618608);
+
         //Add variables
 
         mMap.addMarker(new MarkerOptions().position(utsa).title("you are here"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(utsa));
        // mapView.
-        //mMap.moveCamera(CameraUpdateFactory.zoomIn());
+       // mMap.moveCamera(CameraUpdateFactory.zoomIn());
         mMap.setMinZoomPreference(20.0F);
         mMap.setMaxZoomPreference(17.0f);
-      /*
+
+        if(this.mMap != null){
+            bPoint(buildingpoint);
+            route = googleMap.addPolyline(new PolylineOptions().add( utsa, buildingpoint).width(5).color(Color.BLUE));
+        }
+        /*
+        if(buildingpoint!=utsa) {
+            bPoint(buildingpoint);
+            route = googleMap.addPolyline(new PolylineOptions().add( utsa, buildingpoint).width(5).color(Color.BLUE));
+        }
         //Added code here for my location
+
         if (mapView != null &&
                 mapView.findViewById(Integer.parseInt("1")) != null) {
             // Get the button view
@@ -239,6 +260,16 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Toast.makeText(this,"onConnectionSuspended",Toast.LENGTH_SHORT).show();
+    }
+
+    private void bPoint(LatLng latLng){
+        //Geocoder geocoder = new Geocoder(this);
+        if(marker != null)
+            marker.remove();
+        MarkerOptions markerOptions = new MarkerOptions().position(buildingpoint);
+        marker = mMap.addMarker(markerOptions);
+
+
     }
 
 
