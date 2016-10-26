@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        /*Button mRegisterButton = (Button) findViewById(R.id.register_button);
+        /*Button mRegisterButton = (Button) findViewById(R.id.register_button); // changed your code from mEmailSignInButton to mRegisterButton
         mRegisterButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,13 +109,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
-    public void sendToRegister(View view) {
+    public void sendToRegister(View view) {    //Added this code found out it will be easier
         // Do something in response to button
-        Intent i = new Intent(
+       /* Intent i = new Intent(
                 LoginActivity.this,
                 RegisterActivity.class);
 
-        startActivity(i);
+        startActivity(i);*/
+        Toast toast = Toast.makeText(getApplicationContext(), "register Test", Toast.LENGTH_SHORT);// added toast code to see if it was the button or the registerActivity that didnt work
+        toast.show();
     }
 
     private void populateAutoComplete() {
