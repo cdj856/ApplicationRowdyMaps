@@ -21,21 +21,13 @@ package com.rowdy.marvinlopez.applicationrowdymaps;
         import java.util.HashMap;
         import java.util.Map;
 
-        //import info.androidhive.loginandregistration.R;
-        //import info.androidhive.loginandregistration.app.AppController;
-        //import info.androidhive.loginandregistration.helper.SQLiteHandler;
-        //import info.androidhive.loginandregistration.helper.SessionManager;
-
 public class RegisterActivity extends Activity {
     private static final String TAG = RegisterActivity.class.getSimpleName();
     private Button btnRegister;
-    private Button btnLinkToLogin;
     private EditText inputFullName;
     private EditText inputEmail;
     private EditText inputPassword;
     private ProgressDialog pDialog;
-    //private SessionManager session;
-    //private SQLiteHandler db;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,20 +43,6 @@ public class RegisterActivity extends Activity {
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
 
-        // Session manager
-        //session = new SessionManager(getApplicationContext());
-
-        // SQLite database handler
-        //db = new SQLiteHandler(getApplicationContext());
-
-        // Check if user is already logged in or not
-        /*if (session.isLoggedIn()) {
-            // User is already logged in. Take him to main activity
-            Intent intent = new Intent(RegisterActivity.this,
-                    MainActivity.class);
-            startActivity(intent);
-            finish();
-        }*/
 
         // Register Button Click event
 
@@ -83,18 +61,6 @@ public class RegisterActivity extends Activity {
                 }
             }
         });
-        /*
-        // Link to Login Screen
-        btnLinkToLogin.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(),
-                        LoginActivity.class);
-                startActivity(i);
-                finish();
-            }
-        });*/
-
 
 
     }
@@ -109,10 +75,10 @@ public class RegisterActivity extends Activity {
         String tag_string_req = "req_register";
 
         pDialog.setMessage("Registering ...");
-        showDialog();
+        //showDialog();
 
-        StringRequest strReq = new StringRequest(Method.POST,
-                "?", new Response.Listener<String>() {
+        /*
+        StringRequest strReq = new StringRequest(Method.POST, "https://easel1.fulgentcorp.com/bifrost/ws.php?json=", new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -183,6 +149,7 @@ public class RegisterActivity extends Activity {
 
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+        */
     }
 
     private void showDialog() {
