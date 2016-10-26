@@ -50,14 +50,14 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+       /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        }); */
+        });*/
 
         if (mGoogleApiClient == null) { //mGoogleApiClient
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity
         //maps
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        /*if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+       /* if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -88,9 +88,9 @@ public class MainActivity extends AppCompatActivity
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
             return;
-        }*/
-       // mMap.setMyLocationEnabled(false);
-       // mapView = mapFragment.getView();
+        }
+        mMap.setMyLocationEnabled(false);
+    */    mapView = mapFragment.getView();
         mapFragment.getMapAsync(this); // to call onmap
 
     }
@@ -166,15 +166,17 @@ public class MainActivity extends AppCompatActivity
 
         //Add a marker in utsa and move the camera
         LatLng utsa = new LatLng(29.583844, -98.618608);
+        //Add variables
+
         mMap.addMarker(new MarkerOptions().position(utsa).title("you are here"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(utsa));
        // mapView.
         //mMap.moveCamera(CameraUpdateFactory.zoomIn());
         mMap.setMinZoomPreference(20.0F);
         mMap.setMaxZoomPreference(17.0f);
-
+      /*
         //Added code here for my location
-        /*if (mapView != null &&
+        if (mapView != null &&
                 mapView.findViewById(Integer.parseInt("1")) != null) {
             // Get the button view
             View locationButton = ((View) mapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
@@ -185,8 +187,8 @@ public class MainActivity extends AppCompatActivity
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
             layoutParams.setMargins(0, 0, 30, 30);
-        }*/
-
+        }
+     */
 
     }
 
@@ -199,9 +201,9 @@ public class MainActivity extends AppCompatActivity
     protected void onStop() {
         mGoogleApiClient.disconnect();
         super.onStop();
-        if (mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.disconnect();
-        }
+        //if (mGoogleApiClient.isConnected()) {
+       //     mGoogleApiClient.disconnect();
+       // }
     }
 
 
@@ -233,4 +235,6 @@ public class MainActivity extends AppCompatActivity
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Toast.makeText(this,"onConnectionSuspended",Toast.LENGTH_SHORT).show();
     }
+
+
 }
