@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity
     private TextView mLatitudeText;
     private TextView mLongitudeText;
     private GoogleMap mMap;
+    static LatLng buildingpoint;
     View mapView;
     protected Location mLastLocation;
 
@@ -135,8 +136,12 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_building) {
             // Handle the nav_building action
-            Toast toast = Toast.makeText(this, "Building list would show", Toast.LENGTH_SHORT);
-            toast.show();
+            Intent i = new Intent(
+                    MainActivity.this,
+                    BuildingActivity.class);
+            startActivity(i);
+            //Toast toast = Toast.makeText(this, "Building list would show", Toast.LENGTH_SHORT);
+            //toast.show();
         } else if (id == R.id.nav_routes) {
             Toast toast = Toast.makeText(this, "Turned ON Accessible Routes", Toast.LENGTH_SHORT);
             toast.show();
