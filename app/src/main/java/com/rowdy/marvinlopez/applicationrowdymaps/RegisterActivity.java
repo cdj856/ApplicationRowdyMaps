@@ -15,8 +15,11 @@ package com.rowdy.marvinlopez.applicationrowdymaps;
         import com.android.volley.VolleyError;
         import com.android.volley.toolbox.StringRequest;
 
+        import org.json.JSONArray;
         import org.json.JSONException;
         import org.json.JSONObject;
+        import java.net.*;
+        import java.io.*;
 
         import java.util.HashMap;
         import java.util.Map;
@@ -24,6 +27,7 @@ package com.rowdy.marvinlopez.applicationrowdymaps;
 public class RegisterActivity extends Activity {
     private static final String TAG = RegisterActivity.class.getSimpleName();
     private Button btnRegister;
+    private Button btnLogin;
     private EditText inputFullName;
     private EditText inputEmail;
     private EditText inputPassword;
@@ -43,7 +47,6 @@ public class RegisterActivity extends Activity {
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
 
-
         // Register Button Click event
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +65,16 @@ public class RegisterActivity extends Activity {
             }
         });
 
+        /*
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(),
+                        LoginActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });*/
+
 
     }
 
@@ -74,8 +87,59 @@ public class RegisterActivity extends Activity {
         // Tag used to cancel the request
         String tag_string_req = "req_register";
 
+        //Not yet hashed for simplicity
+        String passwordHash = password;
+        String salt = "salt";
+        String insert;
+        insert = "INSERT INTO Users(userName, passwordHash, salt, email)" +
+                "VALUES ('" + name + "','" + passwordHash + "',  ' " + salt + "', '" + email + "' )";
+        Log.d("idk", "please send help");
         pDialog.setMessage("Registering ...");
         //showDialog();
+
+
+        try {
+            URL url = new URL("https://easel1.fulgentcorp.com/bifrost/ws.php?json=");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setDoOutput(true);
+            con.setDoInput(true);
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            con.setRequestProperty("Accept", "application/json");
+            con.setRequestMethod("POST");
+
+            JSONArray arr = new JSONArray();
+            JSONObject obj = new JSONObject();
+            obj.put("action", "run_sql");
+            obj.put("query", insert);
+            obj.put("session_id","1");
+            obj.put("checksum","1");
+            arr.put(obj);
+
+            OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
+            wr.write(arr.toString());
+            wr.flush();
+
+            StringBuilder sb = new StringBuilder();
+            int HttpResult = con.getResponseCode();
+            if (HttpResult == HttpURLConnection.HTTP_OK) {
+                BufferedReader br = new BufferedReader(
+                        new InputStreamReader(con.getInputStream(), "utf-8"));
+                String line = null;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+                br.close();
+                Log.d("", "" + sb.toString());
+            } else {
+                Log.d("", con.getResponseMessage());
+            }
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
 
         /*
         StringRequest strReq = new StringRequest(Method.POST, "https://easel1.fulgentcorp.com/bifrost/ws.php?json=", new Response.Listener<String>() {

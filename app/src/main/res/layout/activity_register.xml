@@ -64,6 +64,13 @@
             android:onClick="registerUser"/>
 
         <!-- Link to Login Screen -->
+        <Button
+            android:id="@+id/btnLogin"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_login"
+            android:textStyle="bold"/>
 
 
     </LinearLayout>
