@@ -2,27 +2,12 @@ package com.rowdy.marvinlopez.applicationrowdymaps;
 
         import android.app.Activity;
         import android.app.ProgressDialog;
-        import android.content.Intent;
         import android.os.Bundle;
         import android.util.Log;
         import android.view.View;
         import android.widget.Button;
         import android.widget.EditText;
         import android.widget.Toast;
-
-        import com.android.volley.Request.Method;
-        import com.android.volley.Response;
-        import com.android.volley.VolleyError;
-        import com.android.volley.toolbox.StringRequest;
-
-        import org.json.JSONArray;
-        import org.json.JSONException;
-        import org.json.JSONObject;
-        import java.net.*;
-        import java.io.*;
-
-        import java.util.HashMap;
-        import java.util.Map;
 
 public class RegisterActivity extends Activity {
     private static final String TAG = RegisterActivity.class.getSimpleName();
@@ -80,7 +65,7 @@ public class RegisterActivity extends Activity {
 
     /**
      * Function to store user in MySQL database will post params(tag, name,
-     * email, password) to register url
+     * email, password) to registerTask url
      * */
     private void registerUser(final String name, final String email,
                               final String password) {
@@ -92,12 +77,14 @@ public class RegisterActivity extends Activity {
         String salt = "salt";
         String insert;
         insert = "INSERT INTO Users(userName, passwordHash, salt, email)" +
-                "VALUES ('" + name + "','" + passwordHash + "',  ' " + salt + "', '" + email + "' )";
-        Log.d("idk", "please send help");
+                " VALUES ('" + name + "','" + passwordHash + "', '" + salt + "', '" + email + "')";
+        Log.d("main err", "" + insert);
         pDialog.setMessage("Registering ...");
         //showDialog();
 
+        new registerTask().execute(insert);
 
+        /*
         try {
             URL url = new URL("https://easel1.fulgentcorp.com/bifrost/ws.php?json=");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -138,7 +125,7 @@ public class RegisterActivity extends Activity {
 
         }catch(Exception e){
             e.printStackTrace();
-        }
+        }*/
 
 
         /*
@@ -200,7 +187,7 @@ public class RegisterActivity extends Activity {
 
             @Override
             protected Map<String, String> getParams() {
-                // Posting params to register url
+                // Posting params to registerTask url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("name", name);
                 params.put("email", email);
