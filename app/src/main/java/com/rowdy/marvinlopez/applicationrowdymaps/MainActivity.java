@@ -26,7 +26,9 @@ import android.widget.RelativeLayout;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -39,7 +41,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback {
+        implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback,LocationListener {
 
     private GoogleApiClient mGoogleApiClient;
     private TextView mLatitudeText;
@@ -50,6 +52,9 @@ public class MainActivity extends AppCompatActivity
     static LatLng buildingpoint =new LatLng(29.583844, -98.618608);
     View mapView;
     protected Location mLastLocation;
+    //LocationRequest mLocationRequest;
+    //LocationClient mLocationClient;
+    Location mCurrentLocation;
 
 
     @Override
@@ -59,14 +64,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-       /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
 
         if (mGoogleApiClient == null) { //mGoogleApiClient
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -88,7 +85,8 @@ public class MainActivity extends AppCompatActivity
         //maps
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-       /* if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+       //gpsmapcode
+       /*if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -98,9 +96,9 @@ public class MainActivity extends AppCompatActivity
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        mMap.setMyLocationEnabled(false);
-    */
-       // bPoint(buildingpoint);
+        mMap.setMyLocationEnabled(true);*/
+    //gpsmapcode
+      //  bPoint(buildingpoint);
         mapView = mapFragment.getView();
         mapFragment.getMapAsync(this); // to call onmap
 
@@ -178,9 +176,10 @@ public class MainActivity extends AppCompatActivity
     public void onMapReady(GoogleMap googleMap) {
         this.mMap = googleMap;
          //this.googleMap = googleMap;
-       // initializeMap();
+        //initializeMap();
         //Add a marker in utsa and move the camera
         LatLng utsa = new LatLng(29.583844, -98.618608);
+       // LatLng current = new LatLng(mLatitudeText,mLongitudeText);
 
         //Add variables
 
@@ -188,34 +187,17 @@ public class MainActivity extends AppCompatActivity
         mMap.moveCamera(CameraUpdateFactory.newLatLng(utsa));
        // mapView.
        // mMap.moveCamera(CameraUpdateFactory.zoomIn());
-        mMap.setMinZoomPreference(20.0F);
-        mMap.setMaxZoomPreference(17.0f);
+     mMap.setMinZoomPreference(20.0F);
+     mMap.setMaxZoomPreference(17.0f);
 
         if(this.mMap != null){
             bPoint(buildingpoint);
             route = googleMap.addPolyline(new PolylineOptions().add( utsa, buildingpoint).width(5).color(Color.BLUE).geodesic(true));
 
         }
-        /*
-        if(buildingpoint!=utsa) {
-            bPoint(buildingpoint);
-            route = googleMap.addPolyline(new PolylineOptions().add( utsa, buildingpoint).width(5).color(Color.BLUE));
-        }
-        //Added code here for my location
-
-        if (mapView != null &&
-                mapView.findViewById(Integer.parseInt("1")) != null) {
-            // Get the button view
-            View locationButton = ((View) mapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
-            // and next place it, on bottom right (as Google Maps app)
-            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)
-                    locationButton.getLayoutParams();
-            // position on right bottom
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-            layoutParams.setMargins(0, 0, 30, 30);
-        }
-     */
+        //mMap.setMyLocationEnabled(true);
+        //LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+       // mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
     }
 
@@ -250,6 +232,7 @@ public class MainActivity extends AppCompatActivity
         if(mLastLocation != null){
             mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
             mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
+            //Toast.makeText(MainActivity.this,mLatitudeText,Toast.LENGTH_LONG).show();
         }
     }
 
@@ -272,10 +255,20 @@ public class MainActivity extends AppCompatActivity
 
 
     }
-    //private void loadActivity() {
-        // Do all of your work here
 
-   // }
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+
+
+    protected void createLocationRequest() {
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(10000);
+        mLocationRequest.setFastestInterval(5000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
 
 
 }
