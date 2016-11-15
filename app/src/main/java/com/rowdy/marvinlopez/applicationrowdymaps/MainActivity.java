@@ -193,7 +193,8 @@ public class MainActivity extends AppCompatActivity
 
         if(this.mMap != null){
             bPoint(buildingpoint);
-            route = googleMap.addPolyline(new PolylineOptions().add( utsa, buildingpoint).width(5).color(Color.BLUE));
+            route = googleMap.addPolyline(new PolylineOptions().add( utsa, buildingpoint).width(5).color(Color.BLUE).geodesic(true));
+
         }
         /*
         if(buildingpoint!=utsa) {
@@ -271,6 +272,10 @@ public class MainActivity extends AppCompatActivity
 
 
     }
+    //private void loadActivity() {
+        // Do all of your work here
+
+   // }
 
 
 }
