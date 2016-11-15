@@ -3,6 +3,7 @@ package com.rowdy.marvinlopez.applicationrowdymaps;
 /**
  * Created by marvinlopez on 10/26/16.
  */
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -64,6 +65,7 @@ public class BuildingActivity extends AppCompatActivity{
 
                         Toast.makeText(BuildingActivity.this,temp,Toast.LENGTH_LONG).show();
                         MainActivity.buildingpoint = new LatLng(lng, lat);
+                        startActivity(new Intent(BuildingActivity.this,MainActivity.class));
 
 
 
