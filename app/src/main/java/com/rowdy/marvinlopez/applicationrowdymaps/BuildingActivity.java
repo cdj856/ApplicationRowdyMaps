@@ -68,6 +68,7 @@ public class BuildingActivity extends AppCompatActivity{
 
 
 
+
                         finish();
 
                     }
