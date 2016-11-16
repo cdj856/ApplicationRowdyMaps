@@ -12,7 +12,7 @@ import java.lang.*;
 import java.security.*;
 import java.io.StringWriter;
 
-import org.apache.http.client.*;
+//import org.apache.http.client.*;
 
 
 
@@ -75,8 +75,8 @@ public class registerTask extends AsyncTask<String, String, String> {
                 checksumLogin.put("checksum", newChecksum);
                 arrLogin.put(checksumLogin);
 
-                String test = "[{\"action\":\"login\"},{\"login\":\"fa2016_madmappers\"},{\"password\":\"28e501ff6289a7b00015bd19cf92b3342d7eba1af47864374d3dbc1b9e4ec919\"},{\"app_code\":\"fpcwvmCthCnAbvs5\"},{\"session_type\":\"id_salt\"},{\"checksum\":\"844c323475c7244b8734cb3f28a7cd6f33b64fcc15b330c98db257705c5ec62a\"}]";
-
+                String test = "[{\"action\":\"login\"},{\"login\":\"fa2016_madmappers\"},{\"password\":\"tPP3M2cBQsMUsVjq\"},{\"app_code\":\"fpcwvmCthCnAbvs5\"},{\"session_type\":\"id_salt\"},{\"checksum\":\"844c323475c7244b8734cb3f28a7cd6f33b64fcc15b330c98db257705c5ec62a\"}]";
+                //28e501ff6289a7b00015bd19cf92b3342d7eba1af47864374d3dbc1b9e4ec919
                 String thing = JSONObject.quote(arrLogin.toString());
                 String thing2 = thing.substring(1, thing.length()-1);
                 Log.d("Task err2", test);
