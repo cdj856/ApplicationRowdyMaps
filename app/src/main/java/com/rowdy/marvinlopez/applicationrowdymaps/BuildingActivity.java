@@ -22,6 +22,21 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -63,6 +78,12 @@ public class BuildingActivity extends AppCompatActivity{
                             }
 
                         }
+
+
+
+
+                       //this. markerOptions = new MarkerOptions().position(buildingpoint);
+                        //marker = mMap.addMarker(markerOptions);
                         //LatLng buildingpoint = new LatLng(29.583844, -98.618608);
 
                         Toast.makeText(BuildingActivity.this,temp,Toast.LENGTH_LONG).show();
@@ -79,5 +100,11 @@ public class BuildingActivity extends AppCompatActivity{
 
                 }
         );
+    }
+    static void findcorner(double lat, double lng){
+
+        //LatLng MS = new LatLng(29.583980,-98.619059);
+        //MainActivity.mMap.addMarker(new MarkerOptions().position(MS).title("TEST"));
+
     }
 }
