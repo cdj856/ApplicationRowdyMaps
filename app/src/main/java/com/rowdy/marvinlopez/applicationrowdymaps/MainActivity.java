@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity
     static LatLng utsa;
     View mapView;
     protected Location mLastLocation;
+    LocationRequest mLocationRequest;
+    Marker mCurrLocationMarker;
     //LocationRequest mLocationRequest;
     //LocationClient mLocationClient;
     Location mCurrentLocation;
@@ -74,7 +76,8 @@ public class MainActivity extends AppCompatActivity
                     .build();
         }
         mGoogleApiClient.connect();
-        // added map code before here
+
+         // added map code before here
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -158,8 +161,13 @@ public class MainActivity extends AppCompatActivity
             Toast toast = Toast.makeText(this, "GPS OFF", Toast.LENGTH_SHORT);
             toast.show();
         } else if (id == R.id.nav_fiends) {
-            Toast toast = Toast.makeText(this, "You have no friends...Sorry", Toast.LENGTH_SHORT);
-            toast.show();
+            //Go to freinds screen
+            Intent i = new Intent(
+                    MainActivity.this,
+                    FriendsActivity.class);
+            startActivity(i);
+            //Toast toast = Toast.makeText(this, "You have no friends...Sorry", Toast.LENGTH_SHORT);
+            //toast.show();
         } else if (id == R.id.nav_login) {
             Intent i = new Intent(
                     MainActivity.this,
@@ -184,7 +192,7 @@ public class MainActivity extends AppCompatActivity
 
         //Add variables
 
-        mMap.addMarker(new MarkerOptions().position(utsa).title("you are here"));
+       // mMap.addMarker(new MarkerOptions().position(utsa).title("you are here"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(utsa));
        // mapView.
        // mMap.moveCamera(CameraUpdateFactory.zoomIn());
@@ -196,7 +204,25 @@ public class MainActivity extends AppCompatActivity
             route = googleMap.addPolyline(new PolylineOptions().add( utsa, buildingpoint).width(5).color(Color.BLUE).geodesic(true));
 
         }
-        //mMap.setMyLocationEnabled(true);
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        /*if (mGoogleApiClient == null) { //mGoogleApiClient
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
+        mGoogleApiClient.connect();
+        mMap.setMyLocationEnabled(true);*/
         //LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
        // mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
@@ -229,13 +255,22 @@ public class MainActivity extends AppCompatActivity
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(1000);
+        mLocationRequest.setFastestInterval(1000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        if (ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+        }
+        /*mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if(mLastLocation != null){
             mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
-            mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
+            mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));*/
             //Toast.makeText(MainActivity.this,mLatitudeText,Toast.LENGTH_LONG).show();
         }
-    }
+
 
     @Override
     public void onConnectionSuspended(int i) {
@@ -258,17 +293,38 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onLocationChanged(Location location) {
+        mLastLocation = location;
+        if (mCurrLocationMarker != null) {
+            mCurrLocationMarker.remove();
+        }
+
+        //Place current location marker
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(latLng);
+        markerOptions.title("Current Position");
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+        mCurrLocationMarker = mMap.addMarker(markerOptions);
+
+        //move map camera
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
+
+        //stop location updates
+        if (mGoogleApiClient != null) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+        }
 
     }
 
 
 
-    protected void createLocationRequest() {
+   /* protected void createLocationRequest() {
         LocationRequest mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(10000);
         mLocationRequest.setFastestInterval(5000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    }
+    }*/
 
 
 }
