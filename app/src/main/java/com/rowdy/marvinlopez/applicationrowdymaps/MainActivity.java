@@ -46,10 +46,11 @@ public class MainActivity extends AppCompatActivity
     private GoogleApiClient mGoogleApiClient;
     private TextView mLatitudeText;
     private TextView mLongitudeText;
-    private GoogleMap mMap;
+    static GoogleMap mMap;
     private Polyline route;
     static Marker marker;
     static LatLng buildingpoint =new LatLng(29.583844, -98.618608);
+    static LatLng utsa;
     View mapView;
     protected Location mLastLocation;
     //LocationRequest mLocationRequest;
@@ -178,7 +179,7 @@ public class MainActivity extends AppCompatActivity
          //this.googleMap = googleMap;
         //initializeMap();
         //Add a marker in utsa and move the camera
-        LatLng utsa = new LatLng(29.583844, -98.618608);
+         utsa = new LatLng(29.583844, -98.618608);
        // LatLng current = new LatLng(mLatitudeText,mLongitudeText);
 
         //Add variables
@@ -252,7 +253,6 @@ public class MainActivity extends AppCompatActivity
             marker.remove();
         MarkerOptions markerOptions = new MarkerOptions().position(buildingpoint);
         marker = mMap.addMarker(markerOptions);
-
 
     }
 
