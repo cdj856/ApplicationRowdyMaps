@@ -248,6 +248,8 @@ public class MainActivity extends AppCompatActivity
 
            }else{
                 ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+
+
             }
             return;
         }
