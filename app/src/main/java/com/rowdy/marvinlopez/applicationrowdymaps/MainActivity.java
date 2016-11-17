@@ -1,5 +1,7 @@
 package com.rowdy.marvinlopez.applicationrowdymaps;
 
+import android.*;
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -11,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -41,16 +44,16 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback,LocationListener {
-
+        implements NavigationView.OnNavigationItemSelectedListener,GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback,LocationListener {
+    static int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
     private GoogleApiClient mGoogleApiClient;
-    private TextView mLatitudeText;
-    private TextView mLongitudeText;
+    protected TextView mLatitudeText ;
+    protected TextView mLongitudeText ;
     static GoogleMap mMap;
     private Polyline route;
     static Marker marker;
     static LatLng buildingpoint =new LatLng(29.583844, -98.618608);
-    static LatLng utsa;
+    static LatLng person;
     View mapView;
     protected Location mLastLocation;
     LocationRequest mLocationRequest;
@@ -58,6 +61,7 @@ public class MainActivity extends AppCompatActivity
     //LocationRequest mLocationRequest;
     //LocationClient mLocationClient;
     Location mCurrentLocation;
+    double lt,lo;
 
 
     @Override
@@ -74,8 +78,11 @@ public class MainActivity extends AppCompatActivity
                     .addOnConnectionFailedListener(this)
                     .addApi(LocationServices.API)
                     .build();
+
+
         }
-        mGoogleApiClient.connect();
+       // buildGoogleApiClient();
+       // mGoogleApiClient.connect();
 
          // added map code before here
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -89,22 +96,11 @@ public class MainActivity extends AppCompatActivity
         //maps
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-       //gpsmapcode
-       /*if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        mMap.setMyLocationEnabled(true);*/
-    //gpsmapcode
-      //  bPoint(buildingpoint);
+
         mapView = mapFragment.getView();
         mapFragment.getMapAsync(this); // to call onmap
+        mLatitudeText = (TextView) findViewById((R.id.textview));
+        mLongitudeText = (TextView) findViewById((R.id.textview));
 
     }
 
@@ -187,33 +183,24 @@ public class MainActivity extends AppCompatActivity
          //this.googleMap = googleMap;
         //initializeMap();
         //Add a marker in utsa and move the camera
-         utsa = new LatLng(29.583844, -98.618608);
+         person = new LatLng(29.583844, -98.618608);
        // LatLng current = new LatLng(mLatitudeText,mLongitudeText);
 
         //Add variables
 
        // mMap.addMarker(new MarkerOptions().position(utsa).title("you are here"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(utsa));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(person));
        // mapView.
        // mMap.moveCamera(CameraUpdateFactory.zoomIn());
-     mMap.setMinZoomPreference(20.0F);
-     mMap.setMaxZoomPreference(17.0f);
+     //mMap.setMinZoomPreference(20.0F);
+    // mMap.setMaxZoomPreference(17.0f);
 
-        if(this.mMap != null){
+        if(this.mMap != null && buildingpoint.equals(person)==false){
             bPoint(buildingpoint);
-            route = googleMap.addPolyline(new PolylineOptions().add( utsa, buildingpoint).width(5).color(Color.BLUE).geodesic(true));
+            route = googleMap.addPolyline(new PolylineOptions().add( person, buildingpoint).width(5).color(Color.BLUE).geodesic(true));
 
         }
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
+
         /*if (mGoogleApiClient == null) { //mGoogleApiClient
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
@@ -221,55 +208,93 @@ public class MainActivity extends AppCompatActivity
                     .addApi(LocationServices.API)
                     .build();
         }
-        mGoogleApiClient.connect();
-        mMap.setMyLocationEnabled(true);*/
-        //LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-       // mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mGoogleApiClient.connect();*/
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)){
+
+            }else{
+                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+            }
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
+
 
     }
 
     //added mylocation code here onStart() and onStop()
     protected void onStart() {
-        mGoogleApiClient.connect();
+        //Toast.makeText(this,"testTESTOnStart",Toast.LENGTH_LONG).show();
         super.onStart();
+        mGoogleApiClient.connect();
+        //super.onStart();
     }
 
     protected void onStop() {
-        mGoogleApiClient.disconnect();
         super.onStop();
-        //if (mGoogleApiClient.isConnected()) {
-       //     mGoogleApiClient.disconnect();
-       // }
+        mGoogleApiClient.disconnect();
+        //super.onStop();
+
     }
 
 
     @Override
     public void onConnected(Bundle connectionHint) {
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        //Toast.makeText(this,"testTESTOnConnected",Toast.LENGTH_LONG).show();
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+           if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)){
+
+           }else{
+                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+            }
             return;
         }
+
+        //mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+/*
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(1000);
-        mLocationRequest.setFastestInterval(1000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        mLocationRequest.setInterval(60000);
+        mLocationRequest.setFastestInterval(60000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        /*
         if (ActivityCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+            Toast.makeText(this,"LocationServices done",Toast.LENGTH_LONG).show();
         }
-        /*mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if(mGoogleApiClient.isConnected()==true){
+            Toast.makeText(this,"mGoogleApiClient is connected",Toast.LENGTH_LONG).show();
+        }
+    */
+        //here code working but mLastLocation == Null----------------------------------------------------------------
+
+        int permissionCheck = ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION);
+        //Toast.makeText(this,permissionCheck,Toast.LENGTH_LONG).show();
+        if(permissionCheck == 0){
+            Toast.makeText(this,"granted",Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(this,"not granted",Toast.LENGTH_LONG).show();
+        }
+
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        //mLastLocation.describeContents();
+        Toast.makeText(this,"onConnected",Toast.LENGTH_LONG).show();
         if(mLastLocation != null){
             mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
-            mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));*/
-            //Toast.makeText(MainActivity.this,mLatitudeText,Toast.LENGTH_LONG).show();
+            mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
+            lt= mLastLocation.getLatitude();
+            Toast.makeText(this, String.valueOf(lt),Toast.LENGTH_LONG).show();
+            lo = mLastLocation.getLongitude();
+            Toast.makeText(this, String.valueOf(lo),Toast.LENGTH_LONG).show();
+        }else{
+           // LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+            Toast.makeText(this,"LocationServices done",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"mLastLocation==NULL",Toast.LENGTH_LONG).show();
         }
+    }
 
 
     @Override
@@ -293,7 +318,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onLocationChanged(Location location) {
-        mLastLocation = location;
+       /* mLastLocation = location;
         if (mCurrLocationMarker != null) {
             mCurrLocationMarker.remove();
         }
@@ -314,7 +339,7 @@ public class MainActivity extends AppCompatActivity
         if (mGoogleApiClient != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }
-
+*/
     }
 
 
