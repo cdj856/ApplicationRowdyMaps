@@ -81,6 +81,12 @@ public class registerTask extends AsyncTask<String, String, String> {
                 String thing2 = thing.substring(1, thing.length()-1);
                 Log.d("Task err2", test);
 
+                /*
+                byte[] outputBytes = "{'value': 7.5}".getBytes("UTF-8");
+                OutputStream os = httpcon.getOutputStream();
+                os.write(outputBytes);
+                os.close();
+                */
                 OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
                 wr.write(test);
                 wr.flush();
