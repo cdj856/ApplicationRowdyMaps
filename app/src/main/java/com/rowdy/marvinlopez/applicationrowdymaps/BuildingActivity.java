@@ -108,12 +108,7 @@ public class BuildingActivity extends AppCompatActivity{
 
     //finding closet corner for obsticles
     void findcorner(double lat, double lng){
-        for(int i = 0; i < obstacles.length;i++) {
-            double obslat = Double.parseDouble(obstacles[i][1]);
-            if (obslat < lat) {
 
-            }
-        }
         //LatLng MS = new LatLng(29.583980,-98.619059);
         //MainActivity.mMap.addMarker(new MarkerOptions().position(MS).title("TEST"));
 
