@@ -28,4 +28,8 @@
     <string name="hint_name">Username</string>
     <string name="btn_register">REGISTER</string>
     <string name="btn_login">Login</string>
+
+    <!--Strings related to friends-->
+    <string name="show_friends">Show Friends</string>
+    <string name="Group_Meetup">Group Meet</string>
 </resources>
