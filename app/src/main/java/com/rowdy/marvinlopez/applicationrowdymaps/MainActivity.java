@@ -78,8 +78,6 @@ public class MainActivity extends AppCompatActivity
                     .addOnConnectionFailedListener(this)
                     .addApi(LocationServices.API)
                     .build();
-
-
         }
        // buildGoogleApiClient();
        // mGoogleApiClient.connect();
@@ -130,6 +128,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Toast.makeText(this,"onOptionsItemSelected",Toast.LENGTH_LONG).show();
             return true;
         }
 
@@ -148,8 +147,8 @@ public class MainActivity extends AppCompatActivity
                     MainActivity.this,
                     BuildingActivity.class);
             startActivity(i);
-            //Toast toast = Toast.makeText(this, "Building list would show", Toast.LENGTH_SHORT);
-            //toast.show();
+            Toast toast = Toast.makeText(this, "Building list would show", Toast.LENGTH_SHORT);
+            toast.show();
         } else if (id == R.id.nav_routes) {
             Toast toast = Toast.makeText(this, "Turned ON Accessible Routes", Toast.LENGTH_SHORT);
             toast.show();
@@ -188,12 +187,12 @@ public class MainActivity extends AppCompatActivity
 
         //Add variables
 
-       // mMap.addMarker(new MarkerOptions().position(utsa).title("you are here"));
+       mMap.addMarker(new MarkerOptions().position(person).title("you are here"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(person));
        // mapView.
        // mMap.moveCamera(CameraUpdateFactory.zoomIn());
-     //mMap.setMinZoomPreference(20.0F);
-    // mMap.setMaxZoomPreference(17.0f);
+     mMap.setMinZoomPreference(20.0F);
+     mMap.setMaxZoomPreference(17.0f);
 
         if(this.mMap != null && buildingpoint.equals(person)==false){
             bPoint(buildingpoint);
@@ -241,8 +240,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onConnected(Bundle connectionHint) {
-        //Toast.makeText(this,"testTESTOnConnected",Toast.LENGTH_LONG).show();
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+       // Toast.makeText(this,"testTESTOnConnected",Toast.LENGTH_LONG).show();
+        /*if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
            if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)){
 
@@ -252,14 +251,14 @@ public class MainActivity extends AppCompatActivity
 
             }
             return;
-        }
+        }*/
 
         //mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 /*
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(60000);
         mLocationRequest.setFastestInterval(60000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);*/
         /*
         if (ActivityCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -272,7 +271,7 @@ public class MainActivity extends AppCompatActivity
         }
     */
         //here code working but mLastLocation == Null----------------------------------------------------------------
-
+    /*
         int permissionCheck = ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION);
         //Toast.makeText(this,permissionCheck,Toast.LENGTH_LONG).show();
         if(permissionCheck == 0){
@@ -295,7 +294,8 @@ public class MainActivity extends AppCompatActivity
            // LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
             Toast.makeText(this,"LocationServices done",Toast.LENGTH_LONG).show();
             Toast.makeText(this,"mLastLocation==NULL",Toast.LENGTH_LONG).show();
-        }
+        }*/
+
     }
 
 
