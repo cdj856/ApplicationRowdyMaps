@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         RegisterActivity.class);
 
                 startActivity(i);
-                Toast toast = Toast.makeText(getApplicationContext(), "registerTask Test", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getApplicationContext(), "authenticateTask Test", Toast.LENGTH_SHORT);
                 toast.show();
             }
         });
@@ -116,7 +116,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 RegisterActivity.class);
 
         startActivity(i);*/
-        Toast toast = Toast.makeText(getApplicationContext(), "registerTask Test", Toast.LENGTH_SHORT);// added toast code to see if it was the button or the registerActivity that didnt work
+        Toast toast = Toast.makeText(getApplicationContext(), "authenticateTask Test", Toast.LENGTH_SHORT);// added toast code to see if it was the button or the registerActivity that didnt work
         toast.show();
     }
 
@@ -165,7 +165,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
     /**
-     * Attempts to sign in or registerTask the account specified by the login form.
+     * Attempts to sign in or authenticateTask the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
@@ -350,7 +350,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
             }
 
-            // TODO: registerTask the new account here.
+            // TODO: authenticateTask the new account here.
             return true;
         }
 

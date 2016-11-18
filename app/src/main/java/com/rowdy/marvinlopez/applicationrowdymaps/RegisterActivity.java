@@ -65,7 +65,7 @@ public class RegisterActivity extends Activity {
 
     /**
      * Function to store user in MySQL database will post params(tag, name,
-     * email, password) to registerTask url
+     * email, password) to authenticateTask url
      * */
     private void registerUser(final String name, final String email,
                               final String password) {
@@ -82,125 +82,15 @@ public class RegisterActivity extends Activity {
         pDialog.setMessage("Registering ...");
         //showDialog();
 
-        new registerTask().execute(insert);
-
-        /*
         try {
-            URL url = new URL("https://easel1.fulgentcorp.com/bifrost/ws.php?json=");
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setDoOutput(true);
-            con.setDoInput(true);
-            con.setRequestProperty("Content-Type", "application/json");
-            con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            con.setRequestProperty("Accept", "application/json");
-            con.setRequestMethod("POST");
-
-            JSONArray arr = new JSONArray();
-            JSONObject obj = new JSONObject();
-            obj.put("action", "run_sql");
-            obj.put("query", insert);
-            obj.put("session_id","1");
-            obj.put("checksum","1");
-            arr.put(obj);
-
-            OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
-            wr.write(arr.toString());
-            wr.flush();
-
-            StringBuilder sb = new StringBuilder();
-            int HttpResult = con.getResponseCode();
-            if (HttpResult == HttpURLConnection.HTTP_OK) {
-                BufferedReader br = new BufferedReader(
-                        new InputStreamReader(con.getInputStream(), "utf-8"));
-                String line = null;
-                while ((line = br.readLine()) != null) {
-                    sb.append(line + "\n");
-                }
-                br.close();
-                Log.d("", "" + sb.toString());
-            } else {
-                Log.d("", con.getResponseMessage());
-            }
-
-
-        }catch(Exception e){
+            authenticateTask thing = new authenticateTask();
+            String resultSession = thing.execute(insert).get();
+            String resultSalt = thing.getSalt();
+            new registerTask().execute(resultSession, insert, resultSalt);
+        } catch (Exception e){
             e.printStackTrace();
-        }*/
+        }
 
-
-        /*
-        StringRequest strReq = new StringRequest(Method.POST, "https://easel1.fulgentcorp.com/bifrost/ws.php?json=", new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-                Log.d(TAG, "Register Response: " + response.toString());
-                hideDialog();
-
-                try {
-                    JSONObject jObj = new JSONObject(response);
-                    boolean error = jObj.getBoolean("error");
-                    if (!error) {
-                        // User successfully stored in MySQL
-                        // Now store the user in sqlite
-                        String uid = jObj.getString("uid");
-
-                        JSONObject user = jObj.getJSONObject("user");
-                        String name = user.getString("name");
-                        String email = user.getString("email");
-                        String created_at = user
-                                .getString("created_at");
-
-                        // Inserting row in users table
-                        //db.addUser(name, email, uid, created_at);
-
-                        Toast.makeText(getApplicationContext(), "User successfully registered. Try login now!", Toast.LENGTH_LONG).show();
-
-                        // Launch login activity
-                        Intent intent = new Intent(
-                                RegisterActivity.this,
-                                LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                    } else {
-
-                        // Error occurred in registration. Get the error
-                        // message
-                        String errorMsg = jObj.getString("error_msg");
-                        Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_LONG).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Registration Error: " + error.getMessage());
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_LONG).show();
-                hideDialog();
-            }
-        }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                // Posting params to registerTask url
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("name", name);
-                params.put("email", email);
-                params.put("password", password);
-
-                return params;
-            }
-
-        };
-
-        // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
-        */
     }
 
     private void showDialog() {
