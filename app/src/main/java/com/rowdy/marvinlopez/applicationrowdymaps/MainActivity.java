@@ -4,6 +4,7 @@ import android.*;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.location.Geocoder;
 import android.location.Location;
@@ -64,6 +65,8 @@ public class MainActivity extends AppCompatActivity
     Location mCurrentLocation;
     static double lt,lo;
 
+    SessionManager session;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +75,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        session = new SessionManager(getApplicationContext());
 
         if (mGoogleApiClient == null) { //mGoogleApiClient
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -100,6 +104,10 @@ public class MainActivity extends AppCompatActivity
         mapFragment.getMapAsync(this); // to call onmap
         mLatitudeText = (TextView) findViewById((R.id.textview));
         mLongitudeText = (TextView) findViewById((R.id.textview));
+
+        if(session.isLoggedIn()){
+            Toast.makeText(this,"Logged in as " + session.getUserDetails(),Toast.LENGTH_LONG).show();
+        }
 
     }
 
@@ -283,7 +291,7 @@ public class MainActivity extends AppCompatActivity
 */
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         //mLastLocation.describeContents();
-        Toast.makeText(this,"onConnected",Toast.LENGTH_LONG).show();
+        //Toast.makeText(this,"onConnected",Toast.LENGTH_LONG).show();
         if(mLastLocation != null){
             mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
             mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));

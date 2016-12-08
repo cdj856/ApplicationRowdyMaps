@@ -86,7 +86,7 @@ public class RegisterActivity extends Activity {
             authenticateTask thing = new authenticateTask();
             String resultSession = thing.execute(insert).get();
             String resultSalt = thing.getSalt();
-            new registerTask().execute(resultSession, insert, resultSalt);
+            new userTask().execute(resultSession, insert, resultSalt);
         } catch (Exception e){
             e.printStackTrace();
         }

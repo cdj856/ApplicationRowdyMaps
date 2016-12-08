@@ -15,7 +15,7 @@ import java.security.*;
  * Created by jonathan on 11/17/2016.
  */
 
-public class registerTask extends AsyncTask<String, String, String> {
+public class userTask extends AsyncTask<String, String, String> {
     protected String doInBackground(String...insert){
         try {
             String session = insert[0];

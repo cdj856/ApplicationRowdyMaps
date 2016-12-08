@@ -5,6 +5,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +23,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,8 +35,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -63,11 +71,24 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private String username;
+
+    SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        session = new SessionManager(getApplicationContext());
+
+        if(session.isLoggedIn()){
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -211,8 +232,47 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            //mAuthTask = new UserLoginTask(email, password);
+            //mAuthTask.execute((Void) null);
+
+            //Not yet hashed for simplicity
+            String passwordHash = password;
+            String salt = "salt";
+            String insert;
+            insert = "SELECT userName FROM Users WHERE email = '" + email +
+                    "' AND passwordHash = '" + password + "'";
+            Log.d("main err", "" + insert);
+
+            String resultString = "";
+
+            try {
+                authenticateTask thing = new authenticateTask();
+                String resultSession = thing.execute(insert).get();
+                String resultSalt = thing.getSalt();
+                userTask newThing = new userTask();
+                resultString = newThing.execute(resultSession, insert, resultSalt).get();
+
+
+                JSONArray response = new JSONArray(resultString.toString());
+                Log.d("response string", response.toString());
+                JSONObject message = response.getJSONObject(1);
+                JSONArray usernameArr = message.getJSONArray("message");
+                JSONArray username = usernameArr.getJSONArray(0);
+                this.username = username.getJSONObject(0).getString("userName");
+                Log.d("response message", "" + this.username);
+                showProgress(false);
+
+                session.createLoginSession(this.username);
+
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+
+            } catch (Exception e){
+                showProgress(false);
+                mPasswordView.setError(getString(R.string.error_no_result));
+                mPasswordView.requestFocus();
+            }
         }
     }
 
