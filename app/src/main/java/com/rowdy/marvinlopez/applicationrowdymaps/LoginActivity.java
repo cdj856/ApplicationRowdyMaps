@@ -270,7 +270,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             } catch (Exception e){
                 showProgress(false);
-                mPasswordView.setError(getString(R.string.error_no_result));
+                //mPasswordView.setError(getString(R.string.error_no_result));
                 mPasswordView.requestFocus();
             }
         }

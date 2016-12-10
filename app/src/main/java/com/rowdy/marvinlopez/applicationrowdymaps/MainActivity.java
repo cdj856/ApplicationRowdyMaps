@@ -156,8 +156,8 @@ public class MainActivity extends AppCompatActivity
                     MainActivity.this,
                     BuildingActivity.class);
             startActivity(i);
-            Toast toast = Toast.makeText(this, "Building list would show", Toast.LENGTH_SHORT);
-            toast.show();
+            //Toast toast = Toast.makeText(this, "Building list would show", Toast.LENGTH_SHORT);
+            //toast.show();
         } else if (id == R.id.nav_routes) {
             Toast toast = Toast.makeText(this, "Turned ON Accessible Routes", Toast.LENGTH_SHORT);
             toast.show();
@@ -188,10 +188,13 @@ public class MainActivity extends AppCompatActivity
     //@Override
     public void onMapReady(GoogleMap googleMap) {
         this.mMap = googleMap;
-         //this.googleMap = googleMap;
-        //initializeMap();
+
         //Add a marker in utsa and move the camera
-         person = new LatLng(29.583844, -98.618608);
+        if(myloc == null) {
+            person = new LatLng(29.583844, -98.618608);
+        }else{
+            person = myloc;
+        }
        // LatLng current = new LatLng(mLatitudeText,mLongitudeText);
 
         //Add variables
