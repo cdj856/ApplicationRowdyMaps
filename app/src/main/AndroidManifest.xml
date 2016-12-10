@@ -58,8 +58,9 @@
         <activity
             android:name=".RegisterActivity"
             android:label="@string/title_activity_registration"></activity>
-        <activity android:name=".FriendsActivity"
-            android:label="friends" />
+        <activity
+            android:name=".FriendsActivity"
+            android:label="friends" ></activity>
 
     </application>
 
