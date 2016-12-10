@@ -53,5 +53,30 @@ public class FriendsActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
+
+        Button mshowfriends = (Button) findViewById(R.id.show_friends_button);
+        mshowfriends.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast toast = Toast.makeText(getApplicationContext(), "show friends", Toast.LENGTH_SHORT);
+                toast.show();
+                finish();
+            }
+        });
+
+        Button mfriendmeetup = (Button) findViewById(R.id.friend_meetup);
+        mfriendmeetup.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast toast = Toast.makeText(getApplicationContext(), "friend meetup", Toast.LENGTH_SHORT);
+                toast.show();
+                finish();
+            }
+        });
+
+
+
     }
 }
