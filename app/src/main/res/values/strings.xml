@@ -31,5 +31,5 @@
 
     <!--Strings related to friends-->
     <string name="show_friends">Show Friends</string>
-    <string name="Group_Meetup">Group Meet</string>
+    <string name="friend_meetup">Friend Meetup</string>
 </resources>
