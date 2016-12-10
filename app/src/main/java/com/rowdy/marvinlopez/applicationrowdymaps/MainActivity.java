@@ -162,6 +162,7 @@ public class MainActivity extends AppCompatActivity
             Toast toast = Toast.makeText(this, "Turned ON Accessible Routes", Toast.LENGTH_SHORT);
             toast.show();
         } else if (id == R.id.nav_gps) {
+            onStop();
             Toast toast = Toast.makeText(this, "GPS OFF", Toast.LENGTH_SHORT);
             toast.show();
         } else if (id == R.id.nav_fiends) {
@@ -191,7 +192,7 @@ public class MainActivity extends AppCompatActivity
 
         //Add a marker in utsa and move the camera
         if(myloc == null) {
-            person = new LatLng(29.583844, -98.618608);
+            person = new LatLng(29.5844, -98.618);
         }else{
             person = myloc;
         }
