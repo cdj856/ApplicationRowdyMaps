@@ -29,4 +29,9 @@ dependencies {
     compile 'com.google.android.gms:play-services:9.6.1'
     compile 'com.mcxiaoke.volley:library-aar:1.0.0'
     testCompile 'junit:junit:4.12'
+    //code for firebase
+
 }
+
+//firebase
+
