@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity
     static GoogleMap mMap;
     private Polyline route;
     static Marker marker;
-    static LatLng buildingpoint =new LatLng(29.583844, -98.618608);
+    static LatLng buildingpoint =new LatLng(29.584493, -98.618944);  //29.583844, -98.618608);
     static LatLng person;
     static LatLng myloc;
     View mapView;
@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity
 
         //Add a marker in utsa and move the camera
         if(myloc == null) {
-            person = new LatLng(29.5844, -98.618);
+            person = buildingpoint;//new LatLng(29.584493, -98.618944);
         }else{
             person = myloc;
         }
@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity
         if(this.mMap != null && buildingpoint.equals(person)==false){
             bPoint(buildingpoint);
             route = googleMap.addPolyline(new PolylineOptions().add( person, buildingpoint).width(5).color(Color.BLUE).geodesic(true));
-
+            //Toast.makeText(this,"working------",Toast.LENGTH_LONG).show();
         }
 
         /*if (mGoogleApiClient == null) { //mGoogleApiClient
