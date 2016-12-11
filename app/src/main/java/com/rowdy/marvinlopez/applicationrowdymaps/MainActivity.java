@@ -211,18 +211,12 @@ public class MainActivity extends AppCompatActivity
         if(this.mMap != null && buildingpoint.equals(person)==false){
             bPoint(buildingpoint);
             Toast.makeText(this,curbuilding,Toast.LENGTH_SHORT).show();
-            route = googleMap.addPolyline(new PolylineOptions().add( person, buildingpoint).width(5).color(Color.BLUE).geodesic(true));
+
+            //route = googleMap.addPolyline(new PolylineOptions().add( person, buildingpoint).width(5).color(Color.BLUE).geodesic(true));
             //Toast.makeText(this,"working------",Toast.LENGTH_LONG).show();
         }
 
-        /*if (mGoogleApiClient == null) { //mGoogleApiClient
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
-        }
-        mGoogleApiClient.connect();*/
+
        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)){
