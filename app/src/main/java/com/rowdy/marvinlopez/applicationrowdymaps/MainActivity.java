@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity
     //LocationClient mLocationClient;
     Location mCurrentLocation;
     static double lt,lo;
+    static String curbuilding;
 
     SessionManager session;
 
@@ -209,6 +210,7 @@ public class MainActivity extends AppCompatActivity
 
         if(this.mMap != null && buildingpoint.equals(person)==false){
             bPoint(buildingpoint);
+            Toast.makeText(this,curbuilding,Toast.LENGTH_SHORT).show();
             route = googleMap.addPolyline(new PolylineOptions().add( person, buildingpoint).width(5).color(Color.BLUE).geodesic(true));
             //Toast.makeText(this,"working------",Toast.LENGTH_LONG).show();
         }
@@ -333,6 +335,13 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    /*private void mylocationbuilding(LatLng latlng){
+        int minlat = 1000, minlng = 1000;
+        LatLng curloc = myloc;
+
+
+    }*/
+
     @Override
     public void onLocationChanged(Location location) {
        /* mLastLocation = location;
@@ -361,12 +370,6 @@ public class MainActivity extends AppCompatActivity
 
 
 
-   /* protected void createLocationRequest() {
-        LocationRequest mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(10000);
-        mLocationRequest.setFastestInterval(5000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    }*/
 
 
 }
