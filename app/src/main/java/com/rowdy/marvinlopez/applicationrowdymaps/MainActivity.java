@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity
     static GoogleMap mMap;
     private Polyline route;
     static Marker marker;
-    static LatLng buildingpoint =new LatLng(29.584493, -98.618944);  //29.583844, -98.618608);
+    static LatLng buildingpoint =new LatLng(29.584493, -98.618944);
     static LatLng person;
     static LatLng myloc;
     View mapView;
@@ -64,7 +64,9 @@ public class MainActivity extends AppCompatActivity
     //LocationClient mLocationClient;
     Location mCurrentLocation;
     static double lt,lo;
+    static int pina;
     static String curbuilding;
+    static String [][] mappingroutearray = new String[50][50];
 
     SessionManager session;
 
@@ -210,7 +212,17 @@ public class MainActivity extends AppCompatActivity
 
         if(this.mMap != null && buildingpoint.equals(person)==false){
             bPoint(buildingpoint);
-            Toast.makeText(this,curbuilding,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, String.valueOf(pina), Toast.LENGTH_LONG).show();
+
+            /*for(int i = 0; i < pina;i++){
+                double point1 = Double.parseDouble(mappingroutearray[pina][i+2]);
+                double point2 = Double.parseDouble(mappingroutearray[pina][i+3]);
+                LatLng tmpp = new LatLng(point1,point2);
+                MarkerOptions markerOptions = new MarkerOptions().position(tmpp);
+                marker = mMap.addMarker(markerOptions);
+              //  route = googleMap.addPolyline(new PolylineOptions().add( person, tmpp).width(5).color(Color.BLUE).geodesic(true));
+               // person = tmpp;
+            }*/
 
             //route = googleMap.addPolyline(new PolylineOptions().add( person, buildingpoint).width(5).color(Color.BLUE).geodesic(true));
             //Toast.makeText(this,"working------",Toast.LENGTH_LONG).show();
@@ -324,42 +336,16 @@ public class MainActivity extends AppCompatActivity
         //Geocoder geocoder = new Geocoder(this);
         if(marker != null)
             marker.remove();
-        MarkerOptions markerOptions = new MarkerOptions().position(buildingpoint);
+        MarkerOptions markerOptions = new MarkerOptions().position(buildingpoint).title("--------------");
         marker = mMap.addMarker(markerOptions);
 
     }
 
-    /*private void mylocationbuilding(LatLng latlng){
-        int minlat = 1000, minlng = 1000;
-        LatLng curloc = myloc;
 
-
-    }*/
 
     @Override
     public void onLocationChanged(Location location) {
-       /* mLastLocation = location;
-        if (mCurrLocationMarker != null) {
-            mCurrLocationMarker.remove();
-        }
 
-        //Place current location marker
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(latLng);
-        markerOptions.title("Current Position");
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-        mCurrLocationMarker = mMap.addMarker(markerOptions);
-
-        //move map camera
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
-
-        //stop location updates
-        if (mGoogleApiClient != null) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
-        }
-*/
     }
 
 
