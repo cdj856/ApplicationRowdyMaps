@@ -77,7 +77,7 @@ public class FriendsActivity extends AppCompatActivity {
 
                 //Toast toast = Toast.makeText(getApplicationContext(), "friend meetup", Toast.LENGTH_SHORT);
                 //toast.show();
-                //finish();
+                finish();
             }
         });
 
