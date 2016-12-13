@@ -106,7 +106,8 @@ public class MainActivity extends AppCompatActivity
         mLongitudeText = (TextView) findViewById((R.id.textview));
 
         if(session.isLoggedIn()){
-            Toast.makeText(this,"Logged in as " + session.getUserDetails(),Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Logged in as " + session.getUsername(),Toast.LENGTH_LONG).show();
+            //Toast.makeText(this,"Logged in as " + session.getUserDetails(),Toast.LENGTH_LONG).show();
         }
 
     }
@@ -158,9 +159,9 @@ public class MainActivity extends AppCompatActivity
             startActivity(i);
             //Toast toast = Toast.makeText(this, "Building list would show", Toast.LENGTH_SHORT);
             //toast.show();
-        } else if (id == R.id.floor_plans) {
+        /*} else if (id == R.id.floor_plans) {
             Toast toast = Toast.makeText(this, "Turned ON Accessible Routes", Toast.LENGTH_SHORT);
-            toast.show();
+            toast.show();*/
         } else if (id == R.id.nav_routes) {
             Toast toast = Toast.makeText(this, "Display Floor Plans", Toast.LENGTH_SHORT);
             toast.show();
@@ -184,6 +185,16 @@ public class MainActivity extends AppCompatActivity
             startActivity(i);
         } else if(id == R.id.nav_logout){
             Toast toast = Toast.makeText(this, "Logout", Toast.LENGTH_SHORT);
+            if(session.isLoggedIn()){
+                String name = session.getUsername();
+                session.logoutUser();
+                toast = Toast.makeText(this, "Logging out " + name, Toast.LENGTH_SHORT);
+            } else {
+                toast = Toast.makeText(this, "Not logged in", Toast.LENGTH_SHORT);
+                Intent i = new Intent(this, MainActivity.class);
+                startActivity(i);
+            }
+            toast.show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
