@@ -51,6 +51,8 @@ public class friendselect extends AppCompatActivity {
     static Marker marker;
     static LatLng buildingpoint;// =new LatLng(29.584493, -98.618944);
     static double lt,lo;
+    private Polyline route;
+
 
 
 
@@ -75,15 +77,19 @@ public class friendselect extends AppCompatActivity {
                         friend = String.valueOf(parent.getItemAtPosition(position));
                        for(int i =0;i<friends2.length;i++) {
                            if ((friends2[i][0].equals(friend))) {
-                               Toast.makeText(friendselect.this,friends2[i][0],Toast.LENGTH_LONG).show();
+                               //Toast.makeText(friendselect.this,friends2[i][0],Toast.LENGTH_LONG).show();
                                double lt = Double.parseDouble(friends2[i][1]);
-                               double l0 = Double.parseDouble(friends2[i][2]);
+                               double lo = Double.parseDouble(friends2[i][2]);
                                buildingpoint = new LatLng(lt,lo);
+                              // Toast.makeText(friendselect.this,String.valueOf(buildingpoint),Toast.LENGTH_LONG).show();
+
 
                                if(marker != null)
-                                 marker.remove();
+                                    marker.remove();
                                  MarkerOptions markerOptions = new MarkerOptions().position(buildingpoint).title(friend);
                                  marker = MainActivity.mMap.addMarker(markerOptions);
+                                 route = MainActivity.mMap.addPolyline(new PolylineOptions().add( MainActivity.person,buildingpoint ).width(5).color(Color.BLUE).geodesic(true));
+
 
                            }
                        }finish();
