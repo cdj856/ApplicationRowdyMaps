@@ -72,6 +72,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
     private String username;
+    private int id;
 
     SessionManager session;
 
@@ -239,7 +240,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             String passwordHash = password;
             String salt = "salt";
             String insert;
-            insert = "SELECT userName FROM Users WHERE email = '" + email +
+            insert = "SELECT userName, userId FROM Users WHERE email = '" + email +
                     "' AND passwordHash = '" + password + "'";
             Log.d("main err", "" + insert);
 
@@ -257,12 +258,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Log.d("response string", response.toString());
                 JSONObject message = response.getJSONObject(1);
                 JSONArray usernameArr = message.getJSONArray("message");
-                JSONArray username = usernameArr.getJSONArray(0);
-                this.username = username.getJSONObject(0).getString("userName");
-                Log.d("response message", "" + this.username);
+                JSONArray fetchedArr = usernameArr.getJSONArray(0);
+                Log.d("username arr", "" + fetchedArr.toString());
+                this.username = fetchedArr.getJSONObject(0).getString("userName");
+                this.id = fetchedArr.getJSONObject(1).getInt("userId");
+                Log.d("response message", "" + this.username + " " + this.id);
                 showProgress(false);
 
-                session.createLoginSession(this.username);
+                session.createLoginSession(this.username, this.id);
+
+                Log.d("session stuff", "" + session.getUsername() + "   " + session.getUserId());
 
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
@@ -270,7 +275,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             } catch (Exception e){
                 showProgress(false);
-                //mPasswordView.setError(getString(R.string.error_no_result));
+                mPasswordView.setError("Incorrect username or password");
                 mPasswordView.requestFocus();
             }
         }

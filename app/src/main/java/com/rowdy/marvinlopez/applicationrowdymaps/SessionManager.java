@@ -30,6 +30,8 @@ public class SessionManager {
     // User name (make variable public to access from outside)
     public static final String KEY_NAME = "username";
 
+    public static final String KEY_ID = "id";
+
     // Constructor
     public SessionManager(Context context){
         this._context = context;
@@ -40,12 +42,14 @@ public class SessionManager {
     /**
      * Create login session
      * */
-    public void createLoginSession(String name){
+    public void createLoginSession(String name, int id){
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
         // Storing name in pref
         editor.putString(KEY_NAME, name);
+
+        editor.putInt(KEY_ID, id);
 
         // commit changes
         editor.commit();
@@ -78,9 +82,13 @@ public class SessionManager {
     /**
      * Get stored session data
      * */
-    public String getUserDetails(){
+    public String getUsername(){
         // user name
         return pref.getString(KEY_NAME, null);
+    }
+
+    public int getUserId(){
+        return pref.getInt(KEY_ID, 0);
     }
 
     /**
@@ -92,7 +100,7 @@ public class SessionManager {
         editor.commit();
 
         // After logout redirect user to Loing Activity
-        Intent i = new Intent(_context, LoginActivity.class);
+        Intent i = new Intent(_context, MainActivity.class);
         // Closing all the Activities
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
