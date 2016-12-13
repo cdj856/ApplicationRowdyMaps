@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity
     protected TextView mLongitudeText ;
     static GoogleMap mMap;
     private Polyline route;
+    static PolylineOptions polylineOptions = new PolylineOptions();
     static Marker marker;
     static LatLng buildingpoint =new LatLng(29.584493, -98.618944);
     static LatLng person;
@@ -60,13 +61,10 @@ public class MainActivity extends AppCompatActivity
     protected Location mLastLocation;
     LocationRequest mLocationRequest;
     Marker mCurrLocationMarker;
-    //LocationRequest mLocationRequest;
-    //LocationClient mLocationClient;
     Location mCurrentLocation;
     static double lt,lo;
-    static int pina;
+    //static int pina = 0;
     static String curbuilding;
-    static String [][] mappingroutearray = new String[50][50];
 
     SessionManager session;
 
@@ -87,8 +85,7 @@ public class MainActivity extends AppCompatActivity
                     .addApi(LocationServices.API)
                     .build();
         }
-       // buildGoogleApiClient();
-       // mGoogleApiClient.connect();
+
 
          // added map code before here
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -182,6 +179,8 @@ public class MainActivity extends AppCompatActivity
                     LoginActivity.class);
 
             startActivity(i);
+        } else if(id == R.id.nav_logout){
+            Toast toast = Toast.makeText(this, "Logout", Toast.LENGTH_SHORT);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -210,11 +209,21 @@ public class MainActivity extends AppCompatActivity
         mMap.setMinZoomPreference(20.0F);
         mMap.setMaxZoomPreference(17.0f);
 
-        if(this.mMap != null && buildingpoint.equals(person)==false){
-            bPoint(buildingpoint);
-            Toast.makeText(this, String.valueOf(pina), Toast.LENGTH_LONG).show();
 
-            /*for(int i = 0; i < pina;i++){
+        //polylineOptions.addAll(BuildingActivity.paray);
+        //polylineOptions.width(5).color(Color.BLUE);
+        /*if(this.mMap != null && buildingpoint.equals(person)==false){
+            bPoint(buildingpoint);
+            if(pina != 0 ) {
+                //pointstobuild = Integer.parseInt(mappingroutearray[pina][1]);
+                Toast.makeText(this, String.valueOf(pina), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, String.valueOf(pointstobuild), Toast.LENGTH_LONG).show();
+
+                //route = googleMap.addPolyline(new PolylineOptions().add( person, ).width(5).color(Color.BLUE).geodesic(true));
+
+
+            }
+            for(int i = 0; i < pina;i++){
                 double point1 = Double.parseDouble(mappingroutearray[pina][i+2]);
                 double point2 = Double.parseDouble(mappingroutearray[pina][i+3]);
                 LatLng tmpp = new LatLng(point1,point2);
@@ -222,11 +231,11 @@ public class MainActivity extends AppCompatActivity
                 marker = mMap.addMarker(markerOptions);
               //  route = googleMap.addPolyline(new PolylineOptions().add( person, tmpp).width(5).color(Color.BLUE).geodesic(true));
                // person = tmpp;
-            }*/
+            /
 
             //route = googleMap.addPolyline(new PolylineOptions().add( person, buildingpoint).width(5).color(Color.BLUE).geodesic(true));
             //Toast.makeText(this,"working------",Toast.LENGTH_LONG).show();
-        }
+        }*/
 
 
        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -280,27 +289,6 @@ public class MainActivity extends AppCompatActivity
         mLocationRequest.setInterval(60000);
         mLocationRequest.setFastestInterval(60000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-/*
-        if (ActivityCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-            Toast.makeText(this,"LocationServices done",Toast.LENGTH_LONG).show();
-        }
-        if(mGoogleApiClient.isConnected()==true){
-            Toast.makeText(this,"mGoogleApiClient is connected",Toast.LENGTH_LONG).show();
-        }
-
-        //here code working but mLastLocation == Null----------------------------------------------------------------
-
-        int permissionCheck = ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION);
-        //Toast.makeText(this,permissionCheck,Toast.LENGTH_LONG).show();
-        if(permissionCheck == 0){
-            Toast.makeText(this,"granted",Toast.LENGTH_LONG).show();
-        }else{
-            Toast.makeText(this,"not granted",Toast.LENGTH_LONG).show();
-        }
-*/
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         //mLastLocation.describeContents();
         //Toast.makeText(this,"onConnected",Toast.LENGTH_LONG).show();
@@ -334,10 +322,10 @@ public class MainActivity extends AppCompatActivity
 
     private void bPoint(LatLng latLng){
         //Geocoder geocoder = new Geocoder(this);
-        if(marker != null)
+       /* if(marker != null)
             marker.remove();
         MarkerOptions markerOptions = new MarkerOptions().position(buildingpoint).title("--------------");
-        marker = mMap.addMarker(markerOptions);
+        marker = mMap.addMarker(markerOptions);*/
 
     }
 
