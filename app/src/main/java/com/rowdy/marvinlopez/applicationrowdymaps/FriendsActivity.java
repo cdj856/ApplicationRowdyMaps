@@ -70,9 +70,14 @@ public class FriendsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Toast toast = Toast.makeText(getApplicationContext(), "friend meetup", Toast.LENGTH_SHORT);
-                toast.show();
-                finish();
+                Intent i = new Intent(
+                        FriendsActivity.this,
+                        friendselect.class);
+                startActivity(i);
+
+                //Toast toast = Toast.makeText(getApplicationContext(), "friend meetup", Toast.LENGTH_SHORT);
+                //toast.show();
+                //finish();
             }
         });
 
