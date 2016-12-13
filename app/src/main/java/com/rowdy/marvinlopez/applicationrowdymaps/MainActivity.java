@@ -158,8 +158,11 @@ public class MainActivity extends AppCompatActivity
             startActivity(i);
             //Toast toast = Toast.makeText(this, "Building list would show", Toast.LENGTH_SHORT);
             //toast.show();
-        } else if (id == R.id.nav_routes) {
+        } else if (id == R.id.floor_plans) {
             Toast toast = Toast.makeText(this, "Turned ON Accessible Routes", Toast.LENGTH_SHORT);
+            toast.show();
+        } else if (id == R.id.nav_routes) {
+            Toast toast = Toast.makeText(this, "Display Floor Plans", Toast.LENGTH_SHORT);
             toast.show();
         } else if (id == R.id.nav_gps) {
             onStop();
