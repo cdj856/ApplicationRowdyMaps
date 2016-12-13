@@ -80,6 +80,9 @@ public class BuildingActivity extends AppCompatActivity{
                 new AdapterView.OnItemClickListener(){
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                     //------------------------------ Dont COPY code below this
+
+
                         lng = 0;
                         lat = 0;
                         String temp ="";
