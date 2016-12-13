@@ -51,7 +51,7 @@ public class friendselect extends AppCompatActivity {
     static Marker marker;
     static LatLng buildingpoint;// =new LatLng(29.584493, -98.618944);
     static double lt,lo;
-    private Polyline route;
+    static Polyline route3;
 
 
 
@@ -64,10 +64,13 @@ public class friendselect extends AppCompatActivity {
         final String[] friends = {"Marvin", "Darren","Jonathan"};
         final String[][] friends2 = {{"Marvin","29.584422","-98.617395"},{ "Darren","29.581707","-98.617471"},{"Jonathan","29.581971","-98.623123"}};
 
-
         ListAdapter friendAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, friends);
         ListView friendListView = (ListView) findViewById(R.id.friendview);
         friendListView.setAdapter(friendAdapter);
+        if(BuildingActivity.route1 != null){
+            BuildingActivity.route1.remove();
+            BuildingActivity.markerB.remove();
+        }
 
         friendListView.setOnItemClickListener(
                 new AdapterView.OnItemClickListener(){
@@ -85,10 +88,10 @@ public class friendselect extends AppCompatActivity {
 
 
                                if(marker != null)
-                                    marker.remove();
+                                    route3.remove();
                                  MarkerOptions markerOptions = new MarkerOptions().position(buildingpoint).title(friend);
                                  marker = MainActivity.mMap.addMarker(markerOptions);
-                                 route = MainActivity.mMap.addPolyline(new PolylineOptions().add( MainActivity.person,buildingpoint ).width(5).color(Color.BLUE).geodesic(true));
+                                 route3 = MainActivity.mMap.addPolyline(new PolylineOptions().add( MainActivity.person,buildingpoint ).width(5).color(Color.BLUE).geodesic(true));
 
 
                            }
