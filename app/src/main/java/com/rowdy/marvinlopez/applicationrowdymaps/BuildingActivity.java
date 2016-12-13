@@ -83,8 +83,10 @@ public class BuildingActivity extends AppCompatActivity{
                         lng = 0;
                         lat = 0;
                         String temp ="";
-                        route1 = null;
-                        //route1.remove();
+                        //route1 = null;
+                        //polylineOptions.visible(true);
+
+                        MainActivity.mMap.clear();
 
 
                         building = String.valueOf(parent.getItemAtPosition(position));
