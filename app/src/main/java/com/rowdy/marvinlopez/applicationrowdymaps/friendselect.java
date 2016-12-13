@@ -47,25 +47,48 @@ import java.util.List;
  */
 
 public class friendselect extends AppCompatActivity {
+    String friend;
+    static Marker marker;
+    static LatLng buildingpoint;// =new LatLng(29.584493, -98.618944);
+    static double lt,lo;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friend_select);
 
-        final String[] friends = {"Marvin", "Darren", "Jonathan"};
+        final String[] friends = {"Marvin", "Darren","Jonathan"};
+        final String[][] friends2 = {{"Marvin","29.584422","-98.617395"},{ "Darren","29.581707","-98.617471"},{"Jonathan","29.581971","-98.623123"}};
+
 
         ListAdapter friendAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, friends);
         ListView friendListView = (ListView) findViewById(R.id.friendview);
         friendListView.setAdapter(friendAdapter);
+
         friendListView.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
+                new AdapterView.OnItemClickListener(){
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                    }
+                        friend = String.valueOf(parent.getItemAtPosition(position));
+                       for(int i =0;i<friends2.length;i++) {
+                           if ((friends2[i][0].equals(friend))) {
+                               Toast.makeText(friendselect.this,friends2[i][0],Toast.LENGTH_LONG).show();
+                               double lt = Double.parseDouble(friends2[i][1]);
+                               double l0 = Double.parseDouble(friends2[i][2]);
+                               buildingpoint = new LatLng(lt,lo);
 
-                });
+                               if(marker != null)
+                                 marker.remove();
+                                 MarkerOptions markerOptions = new MarkerOptions().position(buildingpoint).title(friend);
+                                 marker = MainActivity.mMap.addMarker(markerOptions);
+
+                           }
+                       }finish();
+                }});
 
     }
+
 }
