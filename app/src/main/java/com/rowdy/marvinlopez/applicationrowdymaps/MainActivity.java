@@ -15,6 +15,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -24,9 +25,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.RelativeLayout;
+import android.app.Dialog;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -53,9 +56,11 @@ public class MainActivity extends AppCompatActivity
     static GoogleMap mMap;
     private Polyline route;
     static PolylineOptions polylineOptions = new PolylineOptions();
-    static Marker marker;
+    static Marker marker, marker2;
     static LatLng buildingpoint =new LatLng(29.584493, -98.618944);
     static LatLng person;
+    static LatLng jpl2; //= new LatLng(29.584248,-98,618562);
+    static LatLng jpl1;
     static LatLng myloc;
     View mapView;
     protected Location mLastLocation;
@@ -65,6 +70,7 @@ public class MainActivity extends AppCompatActivity
     static double lt,lo;
     //static int pina = 0;
     static String curbuilding;
+    private ImageView mimageView;
 
     SessionManager session;
 
@@ -205,6 +211,11 @@ public class MainActivity extends AppCompatActivity
     //@Override
     public void onMapReady(GoogleMap googleMap) {
         this.mMap = googleMap;
+        final AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+
+
+        jpl1 = new LatLng(29.584248,-98.618562);
+        jpl2 = new LatLng(29.584388, -98.617039);
 
         //Add a marker in utsa and move the camera
         if(myloc == null) {
@@ -224,6 +235,8 @@ public class MainActivity extends AppCompatActivity
         mMap.setMaxZoomPreference(17.0f);
 
 
+        MarkerOptions markerOptions2 = new MarkerOptions().position(buildingpoint);
+        marker2 = mMap.addMarker(markerOptions2);
         //polylineOptions.addAll(BuildingActivity.paray);
         //polylineOptions.width(5).color(Color.BLUE);
         /*if(this.mMap != null && buildingpoint.equals(person)==false){
@@ -231,9 +244,31 @@ public class MainActivity extends AppCompatActivity
             if(pina != 0 ) {
                 //pointstobuild = Integer.parseInt(mappingroutearray[pina][1]);
                 Toast.makeText(this, String.valueOf(pina), Toast.LENGTH_LONG).show();
-                Toast.makeText(this, String.valueOf(pointstobuild), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, String.valueOf(pointstobuild), Toast.LENGTH_LONG).show();*/
+                route = googleMap.addPolyline(new PolylineOptions().add(jpl1,jpl2 ).visible(true));
+                route = googleMap.addPolyline(new PolylineOptions().add(new LatLng(29.584004,-98.617714),new LatLng(29.584810,-98.617525) ).visible(true));
+                route.setClickable(true);
+                //route.isClickable();
 
-                //route = googleMap.addPolyline(new PolylineOptions().add( person, ).width(5).color(Color.BLUE).geodesic(true));
+        googleMap.setOnPolylineClickListener(new GoogleMap.OnPolylineClickListener()
+        {
+            @Override
+            public void onPolylineClick(Polyline route)
+            {
+                //do something with polyline
+                //Toast toast = Toast.makeText(MainActivity.this, "JPL CLICK", Toast.LENGTH_SHORT);
+                //toast.show();
+                //setImageResource(R.mipmap.jpl_mapfirstfloor);
+               // alertDialog.setIcon(R.layout.sample);
+                //alertDialog.show();
+                //mimageView = (ImageView) alertDialog.findViewById(R.layout.sample);
+                //mimageView = (ImageView) findViewById(R.layout.sample);
+                //mimageView.setImageDrawable(R.mipmap.jplmapfirstfloor);
+
+
+            }
+        });
+        /*
 
 
             }
