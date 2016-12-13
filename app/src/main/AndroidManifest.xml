@@ -52,6 +52,8 @@
             android:label="@string/title_activity_maps" />
         <activity android:name=".BuildingActivity"
             android:label="buldings" />
+        <activity android:name=".friendselect"
+            android:label="fiendselect"/>
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"></activity>
