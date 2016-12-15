@@ -2,6 +2,7 @@ package com.rowdy.marvinlopez.applicationrowdymaps;
 
 import android.*;
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.SharedPreferences;
@@ -256,20 +257,37 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onPolylineClick(Polyline route)
             {
-                //do something with polyline
-                //Toast toast = Toast.makeText(MainActivity.this, "JPL CLICK", Toast.LENGTH_SHORT);
-                //toast.show();
-                //setImageResource(R.mipmap.jpl_mapfirstfloor);
-               // alertDialog.setIcon(R.layout.sample);
-                //alertDialog.show();
-                //mimageView = (ImageView) alertDialog.findViewById(R.layout.sample);
-                //mimageView = (ImageView) findViewById(R.layout.sample);
-                //mimageView.setImageDrawable(R.mipmap.jplmapfirstfloor);
-                AlertDialog.Builder alertadd = new AlertDialog.Builder(MainActivity.this);
+
+                final AlertDialog.Builder alertadd = new AlertDialog.Builder(MainActivity.this);
+              //  final AlertDialog.Builder alertadd1 = new AlertDialog.Builder(MainActivity.this);
+                //final AlertDialog.Builder alertadd2 = new AlertDialog.Builder(MainActivity.this);
                 LayoutInflater factory = LayoutInflater.from(MainActivity.this);
                 final View view = factory.inflate(R.layout.sample, null);
+                final View view1 = factory.inflate(R.layout.sample2,null);
+                final View view2 = factory.inflate(R.layout.sample3,null);
+
                 alertadd.setView(view);
-                alertadd.show();
+                //final AlertDialog alertDialog = alertadd.show();
+
+                alertadd.setPositiveButton("4 floor", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        AlertDialog.Builder alertadd = new AlertDialog.Builder(MainActivity.this);
+                        alertadd.setView(view2);
+                        alertadd.show();
+
+                    }
+                });
+                alertadd.setNegativeButton("3 floor", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        AlertDialog.Builder alertadd = new AlertDialog.Builder(MainActivity.this);
+                        alertadd.setView(view1);
+                        alertadd.show();
+
+                    }
+                });
+               alertadd.show();
 
 
 
