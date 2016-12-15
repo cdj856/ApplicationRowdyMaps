@@ -96,6 +96,10 @@ public class friendselect extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                        if(route != null){
+                            route.remove();
+                        }
+
                         friend = String.valueOf(parent.getItemAtPosition(position));
                        for(int i =0;i<friends2.length;i++) {
                            if ((friends2[i][0].equals(friend))) {

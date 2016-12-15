@@ -379,6 +379,7 @@ public class MainActivity extends AppCompatActivity
            // LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
             Toast.makeText(this,"LocationServices done",Toast.LENGTH_LONG).show();
             Toast.makeText(this,"mLastLocation==NULL",Toast.LENGTH_LONG).show();
+
         }
 
     }
