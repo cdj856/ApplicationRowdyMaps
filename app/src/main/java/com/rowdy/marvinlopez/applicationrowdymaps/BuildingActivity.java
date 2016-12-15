@@ -55,6 +55,7 @@ public class BuildingActivity extends AppCompatActivity{
     final String[][] FSBpoints = {{"MS Multidiscplinary Studies Building","1","29.583465","-98.619039"},{"BB Business Building","4","29.584248","-98.618729","29.584455","-98.618467","29.584690","-98.618504","29.584860","-98.618490"},{"MH McKinney Humanties Building","1","29.584321","-98.619001"},{"JPL John Peace Library","1","29.584295","-98.617800"},{"ART Arts Building","1","29.583348","-98.617796"},{"BSB BioSciences Bulding","1","29.582154","-98.618486"},{"EB Engineering Building","1","29.582330","-98.617831"},{"BSE BioTechnology Sciences & Engineering","2","29.582200","-98.617311","29.581774","-98.617457"},{"AET Applied Engineering and Technology","3", "29.581928","-98.618059", "29.581753","-98.617955", "29.581219","-98.617843"},{"MB Main Building","3","29.583704","-98.618172","29.584243","-98.616780","29.584722","-98.616840"},{"NPB North Paseo Building","4","29.584236","-98.61735","29.584455","-98.618460","29.585171","-98.618877","29.585788","-98.619595"},{"RWC Recreation Wellness Center","3","29.582904","-98.619201","29.581830","-98.62561","29.581401","-98.622599"}};
     final String[][] JPLpoints = {{"MS Multidiscplinary Studies Building","1","29.583465","-98.619039"},{"BB Business Building","1","29.584860","-98.618490"},{"MH McKinney Humanties Building","1","29.584321","-98.619001"},{"FLN Flawn Sciences Building","2","29.583533","-98.618246","29.583092","-98.618255"},{"ART Arts Building","1","29.583348","-98.617796"},{"BSB BioSciences Bulding","3","29.583365","-98.618214", "29.582917", "-98.619137","29.582154","-98.618486"},{"EB Engineering Building","3","29.583402","-98.618150","29.582814", "-98.617785","29.582330","-98.617831"},{"BSE BioTechnology Sciences & Engineering","3","29.583402","-98.618150","29.581937", "-98.617152","29.581774","-98.617457"},{"AET Applied Engineering and Technology","6","29.583402","-98.618150","29.582814","-98.617785","29.582516","-98.618010","29.582320","-98.618300","29.581816","-98.618053","29.581219","-98.617843"},{"MB Main Building","1","29.584722","-98.616840"},{"NPB North Paseo Building","2","29.585091","-98.618836","29.585788","-98.619595"},{"RWC Recreation Wellness Center","3","29.584177","-98.618933","29.582264","-98.622473","29.581401","-98.622599"}};
     final String[][] RWCpoints = {{"MS Multidiscplinary Studies Building","3","29.582472","-98.622252","29.583716","-98.619791","29.583465","-98.619039"},{"BB Business Building","4","29.582472","-98.622252","29.583716","-98.619791","29.584463","-98.618448","29.584860","-98.618490"},{"MH McKinney Humanties Building","3","29.582472","-98.622252","29.583973","-98.619316","29.584321","-98.619001"},{"JPL John Peace Library","3","29.582472","-98.622252","29.583973","-98.619316","29.584295","-98.617800"},{"FLN Flawn Sciences Building","4","29.582472","-98.622252","29.583973","-98.619316","29.583873","-98.618615","29.583092","-98.618255"}};
+    final String[][] BBPoints =  {{"MS Multidiscplinary Studies Building","3","29.584547", "-98.618508", "29.584021","-98.618940", "29.583465","-98.619039"},{"JPL John Peace Library","1","29.584295","-98.617800"},{"MH McKinney Humanties Building", "1","29.584321","-98.619001"},{"FLN Flawn Sciences Building","3","29.584547","-98.618508", "29.584179","-98.618802", "29.583092","-98.618255"},{"ART Arts Building","4","29.584547","-98.618508", "29.584179","-98.618802","29.583458","-98.618232","29.583348","-98.617796"},{"BSB BioSciences Bulding","6","29.584547","-98.618508", "29.584179","-98.618802","29.583458","-98.618232","29.582828","-98.617774","29.582550","-98.617904", "29.582154","-98.618486"},{"EB Engineering Building","5","29.584547","-98.618508","29.584179","-98.618802","29.583458","-98.618232","29.582828","-98.617774","29.582330","-98.617831"},{"BSE BioTechnology Sciences & Engineering","6","29.584547","-98.618508","29.584179","-98.618802","29.583458","-98.618232","29.582828","-98.617774", "29.581980", "-98.617144", "29.581774","-98.617457"},{"AET Applied Engineering and Technology","8","29.584547","-98.618508", "29.584179","-98.618802","29.583458","-98.618232","29.582828","-98.617774","29.582550","-98.617904", "29.582310","-98.618292","29.581867","-98.618016","29.581219","-98.617843"},{"MB Main Building","2","29.585208","-98.617248","29.584722","-98.616840"},{"NPB North Paseo Building","2","29.585125","-98.618871","29.585788","-98.619595"},{"RWC Recreation Wellness Center","4","29.584479","-98.618508","29.584127","-98.618991","29.582317", "-98.622393","29.581401","-98.622599"}};
     static int npoints = 0;
     static Polyline route1;
     static double lt,lo,lonmy,latmy;
@@ -124,12 +125,18 @@ public class BuildingActivity extends AppCompatActivity{
                                     }
                                 }
                                 paray.add(MainActivity.person);
-
+                                        int j = 3;
                                 for (int i = 1; i <= npoints; i++) {
+
                                     //   Toast.makeText(BuildingActivity.this,"-1-",Toast.LENGTH_LONG).show();
                                     lt = Double.parseDouble(MSPoints[pina][i * 2]);
                                     //Toast.makeText(BuildingActivity.this,String.valueOf(lt),Toast.LENGTH_LONG).show();
-                                    lo = Double.parseDouble(MSPoints[pina][i + 2]);
+                                    if(i ==1) {
+                                        lo = Double.parseDouble(MSPoints[pina][i + 2]);
+                                    }else{
+                                        lo = Double.parseDouble(MSPoints[pina][i+2+j]);
+                                        j++;
+                                    }
                                     //Toast.makeText(BuildingActivity.this,String.valueOf(lo),Toast.LENGTH_LONG).show();
                                     paray.add(new LatLng(lt, lo));
                                 }
@@ -164,12 +171,19 @@ public class BuildingActivity extends AppCompatActivity{
 
                                     }
                                 }
+                                int k =3;
                                 for(int i = 1;i <= npoints; i++){
-                                   //Toast.makeText(BuildingActivity.this,"-1-",Toast.LENGTH_LONG).show();
-                                    lt = Double.parseDouble(MHpoints[pina][i*2]);
-                                   // Toast.makeText(BuildingActivity.this,String.valueOf(lt),Toast.LENGTH_LONG).show();
-                                    lo = Double.parseDouble(MHpoints[pina][i+2]);
+                                    //   Toast.makeText(BuildingActivity.this,"-1-",Toast.LENGTH_LONG).show();
+                                    lt = Double.parseDouble(MSPoints[pina][i * 2]);
+                                    //Toast.makeText(BuildingActivity.this,String.valueOf(lt),Toast.LENGTH_LONG).show();
+                                    if(i ==1) {
+                                        lo = Double.parseDouble(MSPoints[pina][i + 2]);
+                                    }else{
+                                        lo = Double.parseDouble(MSPoints[pina][i+k]);
+                                        k++;
+                                    }
                                     //Toast.makeText(BuildingActivity.this,String.valueOf(lo),Toast.LENGTH_LONG).show();
+                                  //  paray.add(new LatLng(lt, lo));
                                     paray.add(new LatLng(lt,lo));
                                     if(i == npoints){
                                         lastbulding = new LatLng(lt,lo);
@@ -294,6 +308,43 @@ public class BuildingActivity extends AppCompatActivity{
 
                                 MarkerOptions markerOptions4 = new MarkerOptions().position(p).title(building);
                                 markerB = MainActivity.mMap.addMarker(markerOptions4);
+                                route1 = MainActivity.mMap.addPolyline(new PolylineOptions().addAll( paray).width(5).color(Color.BLUE).geodesic(true));
+
+
+                                break;
+
+                            case "BB Business Building":
+                                Toast.makeText(BuildingActivity.this, "Found BBPOINTS", Toast.LENGTH_LONG).show();
+
+                                for (int i = 0; i < BBPoints.length; i++) {
+                                    if ((BBPoints[i][0].equals(building))) {
+                                        pina = i;
+                                        npoints = Integer.parseInt(BBPoints[i][1]);
+                                        //Toast.makeText(BuildingActivity.this, RWCpoints[i][1], Toast.LENGTH_LONG).show();
+
+                                    }
+                                }
+                                paray.add(MainActivity.person);
+
+                                for (int i = 1; i <= npoints; i++) {
+                                    //   Toast.makeText(BuildingActivity.this,"-1-",Toast.LENGTH_LONG).show();
+                                    lt = Double.parseDouble(BBPoints[pina][i * 2]);
+                                    //Toast.makeText(BuildingActivity.this,String.valueOf(lt),Toast.LENGTH_LONG).show();
+                                    lo = Double.parseDouble(BBPoints[pina][i + 2]);
+                                    //Toast.makeText(BuildingActivity.this,String.valueOf(lo),Toast.LENGTH_LONG).show();
+                                    paray.add(new LatLng(lt, lo));
+                                }
+
+
+                                if (markerB != null){
+                                    route1.remove();
+                                    markerB.remove();
+
+                                }
+
+
+                                MarkerOptions markerOptions5 = new MarkerOptions().position(p).title(building);
+                                markerB = MainActivity.mMap.addMarker(markerOptions5);
                                 route1 = MainActivity.mMap.addPolyline(new PolylineOptions().addAll( paray).width(5).color(Color.BLUE).geodesic(true));
 
 
