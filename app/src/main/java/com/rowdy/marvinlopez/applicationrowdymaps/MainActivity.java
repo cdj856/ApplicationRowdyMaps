@@ -16,6 +16,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -211,7 +212,7 @@ public class MainActivity extends AppCompatActivity
     //@Override
     public void onMapReady(GoogleMap googleMap) {
         this.mMap = googleMap;
-        final AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+       // final AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
 
 
         jpl1 = new LatLng(29.584248,-98.618562);
@@ -264,6 +265,12 @@ public class MainActivity extends AppCompatActivity
                 //mimageView = (ImageView) alertDialog.findViewById(R.layout.sample);
                 //mimageView = (ImageView) findViewById(R.layout.sample);
                 //mimageView.setImageDrawable(R.mipmap.jplmapfirstfloor);
+                AlertDialog.Builder alertadd = new AlertDialog.Builder(MainActivity.this);
+                LayoutInflater factory = LayoutInflater.from(MainActivity.this);
+                final View view = factory.inflate(R.layout.sample, null);
+                alertadd.setView(view);
+                alertadd.show();
+
 
 
             }
