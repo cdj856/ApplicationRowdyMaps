@@ -246,8 +246,8 @@ public class MainActivity extends AppCompatActivity
                 //pointstobuild = Integer.parseInt(mappingroutearray[pina][1]);
                 Toast.makeText(this, String.valueOf(pina), Toast.LENGTH_LONG).show();
                 Toast.makeText(this, String.valueOf(pointstobuild), Toast.LENGTH_LONG).show();*/
-                route = googleMap.addPolyline(new PolylineOptions().add(jpl1,jpl2 ).visible(true));
-                route = googleMap.addPolyline(new PolylineOptions().add(new LatLng(29.584004,-98.617714),new LatLng(29.584810,-98.617525) ).visible(true));
+                route = googleMap.addPolyline(new PolylineOptions().add(jpl1,jpl2 ).visible(false));
+                route = googleMap.addPolyline(new PolylineOptions().add(new LatLng(29.584004,-98.617714),new LatLng(29.584810,-98.617525) ).visible(false).width(200));
                 route.setClickable(true);
                 //route.isClickable();
 
