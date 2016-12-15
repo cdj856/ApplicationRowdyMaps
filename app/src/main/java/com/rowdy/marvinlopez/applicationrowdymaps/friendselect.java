@@ -55,7 +55,7 @@ public class friendselect extends AppCompatActivity {
     static Marker marker;
     static LatLng buildingpoint;// =new LatLng(29.584493, -98.618944);
     static double lt,lo;
-    private Polyline route;
+    static Polyline route;
     SessionManager session;
     String[] friends = new String[20];
     String[][] friends2 = new String[20][3];
