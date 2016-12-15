@@ -246,7 +246,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             String resultString = "";
 
+
             try {
+                //Logging in
                 authenticateTask thing = new authenticateTask();
                 String resultSession = thing.execute(insert).get();
                 String resultSalt = thing.getSalt();
@@ -273,11 +275,63 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 startActivity(intent);
                 finish();
 
+
+
+                //Pulling friends ID's
+                /*authenticateTask thing = new authenticateTask();
+                String resultSession = thing.execute("").get();
+                String resultSalt = thing.getSalt();
+                userTask friends = new userTask();
+
+                String friendsQuery;
+                friendsQuery = "SELECT friend_one, friend_two FROM Friends WHERE (friend_one = '" + session.getUserId() +
+                        "' OR friend_two = '" + session.getUserId() + "')";
+
+                String friendsResult = friends.execute(resultSession, friendsQuery, resultSalt).get();
+                Log.d("friends result", friendsResult);
+
+                JSONArray friendsResponse = new JSONArray(friendsResult);
+                JSONObject friendsMessage = friendsResponse.getJSONObject(1);
+                JSONArray friendsArr = friendsMessage.getJSONArray("message");
+
+                List<Integer> friendIds = new ArrayList<>();
+                for(int x = 0; x < friendsArr.length();x++){
+                    JSONArray temp = friendsArr.getJSONArray(x);
+                    int one = temp.getJSONObject(0).getInt("friend_one");
+                    int two = temp.getJSONObject(1).getInt("friend_two");
+                    if(one == session.getUserId()){
+                        friendIds.add(two);
+                    } else {
+                        friendIds.add(one);
+                    }
+                }
+                Log.d("list of friend id", " " + friendIds.toString());
+
+
+                //Pulling friend usernames and locations
+                String getFriends;
+                getFriends = "SELECT userName, lat, lon FROM Users WHERE (userId = '" + friendIds.get(0) +
+                            "')";
+                for(int x = 1; x < friendIds.size(); x++){
+                    getFriends = getFriends + " OR (userId = '" + friendIds.get(x) + "')";
+                }
+                Log.d("friends info query", getFriends);
+                userTask getFriendInfo = new userTask();
+                String friendsInfo = getFriendInfo.execute(resultSession, getFriends, resultSalt).get();
+                Log.d("friends info result", friendsInfo);
+
+                List<String> friendUsernames = new ArrayList<>();
+                List<Double> friendLats = new ArrayList<>();
+                List<Double> friendLons = new ArrayList<>();*/
+
+
+
             } catch (Exception e){
                 showProgress(false);
                 mPasswordView.setError("Incorrect username or password");
                 mPasswordView.requestFocus();
             }
+
         }
     }
 

@@ -2,6 +2,7 @@ package com.rowdy.marvinlopez.applicationrowdymaps;
 
         import android.app.Activity;
         import android.app.ProgressDialog;
+        import android.content.Intent;
         import android.os.Bundle;
         import android.util.Log;
         import android.view.View;
@@ -87,8 +88,15 @@ public class RegisterActivity extends Activity {
             String resultSession = thing.execute(insert).get();
             String resultSalt = thing.getSalt();
             new userTask().execute(resultSession, insert, resultSalt);
+
+            Toast toast = Toast.makeText(this, "Logging out " + name, Toast.LENGTH_SHORT);
+            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+            toast.show();
         } catch (Exception e){
-            e.printStackTrace();
+            inputFullName.setError("Incorrect username or password");
+            inputFullName.requestFocus();
         }
 
     }

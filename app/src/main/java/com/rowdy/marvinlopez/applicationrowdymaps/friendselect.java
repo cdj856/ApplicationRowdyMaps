@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -39,6 +40,9 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -52,6 +56,13 @@ public class friendselect extends AppCompatActivity {
     static LatLng buildingpoint;// =new LatLng(29.584493, -98.618944);
     static double lt,lo;
     private Polyline route;
+    SessionManager session;
+    String[] friends = new String[20];
+    String[][] friends2 = new String[20][3];
+    //String[] friends = {"Marvin", "Darren","Jonathan"};
+    //String[] friends = {"", ""};
+    //String[][] friends2 = {{"","",""},{"","",""}};
+    //String[][] friends2 = {{"Marvin","29.584422","-98.617395"},{ "Darren","29.581707","-98.617471"},{"Jonathan","29.581971","-98.623123"}};
 
 
 
@@ -61,9 +72,20 @@ public class friendselect extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friend_select);
 
-        final String[] friends = {"Marvin", "Darren","Jonathan"};
-        final String[][] friends2 = {{"Marvin","29.584422","-98.617395"},{ "Darren","29.581707","-98.617471"},{"Jonathan","29.581971","-98.623123"}};
+        for(int ind = 0; ind < friends.length; ind++){
+            friends[ind] = "";
+            friends2[ind][0] = "";
+            friends2[ind][1] = "";
+            friends2[ind][2] = "";
 
+        }
+        friends2[0][0] = "";
+
+        session = new SessionManager(getApplicationContext());
+
+        if(session.isLoggedIn()) {
+            grabFromDatabase();
+        }
 
         ListAdapter friendAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, friends);
         ListView friendListView = (ListView) findViewById(R.id.friendview);
@@ -95,6 +117,73 @@ public class friendselect extends AppCompatActivity {
                        }finish();
                 }});
 
+    }
+
+    private void grabFromDatabase(){
+        try{
+            //Pulling friends ID's
+            authenticateTask thing = new authenticateTask();
+            String resultSession = thing.execute("").get();
+            String resultSalt = thing.getSalt();
+            userTask friends = new userTask();
+
+            String friendsQuery;
+            friendsQuery = "SELECT friend_one, friend_two FROM Friends WHERE (friend_one = '" + session.getUserId() +
+                    "' OR friend_two = '" + session.getUserId() + "')";
+
+            String friendsResult = friends.execute(resultSession, friendsQuery, resultSalt).get();
+            Log.d("friends result", friendsResult);
+
+            JSONArray friendsResponse = new JSONArray(friendsResult);
+            JSONObject friendsMessage = friendsResponse.getJSONObject(1);
+            JSONArray friendsArr = friendsMessage.getJSONArray("message");
+
+            List<Integer> friendIds = new ArrayList<>();
+            for(int x = 0; x < friendsArr.length();x++){
+                JSONArray temp = friendsArr.getJSONArray(x);
+                int one = temp.getJSONObject(0).getInt("friend_one");
+                int two = temp.getJSONObject(1).getInt("friend_two");
+                if(one == session.getUserId()){
+                    friendIds.add(two);
+                } else {
+                    friendIds.add(one);
+                }
+            }
+            Log.d("list of friend id", " " + friendIds.toString());
+
+
+            //Pulling friend usernames and locations
+            String getFriends;
+            getFriends = "SELECT userName, lat, lon FROM Users WHERE (userId = '" + friendIds.get(0) +
+                    "')";
+            for(int x = 1; x < friendIds.size(); x++){
+                getFriends = getFriends + " OR (userId = '" + friendIds.get(x) + "')";
+            }
+            Log.d("friends info query", getFriends);
+            userTask getFriendInfo = new userTask();
+            String friendsInfo = getFriendInfo.execute(resultSession, getFriends, resultSalt).get();
+            Log.d("friends info result", friendsInfo);
+
+            JSONArray friendsInfoResponse = new JSONArray(friendsInfo);
+            JSONObject friendsInfoMessage = friendsInfoResponse.getJSONObject(1);
+            JSONArray friendsInfoArr = friendsInfoMessage.getJSONArray("message");
+            Log.d("friends info arr", friendsInfoArr.toString());
+            for(int x = 0; x < friendsInfoArr.length(); x++){
+                JSONArray temp = friendsInfoArr.getJSONArray(x);
+                Log.d("Friend", temp.toString());
+                String username = temp.getJSONObject(0).getString("userName");
+                double lat = temp.getJSONObject(1).getDouble("lat");
+                double lon = temp.getJSONObject(2).getDouble("lon");
+                Log.d("friend info", "" + username  + "  " + lat + " " + lon);
+                this.friends[x] = username;
+                this.friends2[x][0] = username;
+                this.friends2[x][1] = "" + lat;
+                this.friends2[x][2] = "" + lon;
+            }
+
+        } catch (Exception e){
+            Log.d("err", "building failed");
+        }
     }
 
 }
