@@ -118,7 +118,7 @@ public class BuildingActivity extends AppCompatActivity{
                                     if ((MSPoints[i][0].equals(building))) {
                                         pina = i;
                                         npoints = Integer.parseInt(MSPoints[i][1]);
-                                        Toast.makeText(BuildingActivity.this, MSPoints[i][1], Toast.LENGTH_LONG).show();
+                                        //Toast.makeText(BuildingActivity.this, MSPoints[i][1], Toast.LENGTH_LONG).show();
                                          //polylineOptions.add(p);
 
                                     }
@@ -159,13 +159,13 @@ public class BuildingActivity extends AppCompatActivity{
                                     if ((MHpoints[i][0].equals(building))) {
                                         pina = i;
                                         npoints = Integer.parseInt(MHpoints[i][1]);
-                                        Toast.makeText(BuildingActivity.this,String.valueOf(npoints),Toast.LENGTH_LONG).show();
+                                        //Toast.makeText(BuildingActivity.this,String.valueOf(npoints),Toast.LENGTH_LONG).show();
                                         //polylineOptions.add(p);
 
                                     }
                                 }
                                 for(int i = 1;i <= npoints; i++){
-                                   Toast.makeText(BuildingActivity.this,"-1-",Toast.LENGTH_LONG).show();
+                                   //Toast.makeText(BuildingActivity.this,"-1-",Toast.LENGTH_LONG).show();
                                     lt = Double.parseDouble(MHpoints[pina][i*2]);
                                    // Toast.makeText(BuildingActivity.this,String.valueOf(lt),Toast.LENGTH_LONG).show();
                                     lo = Double.parseDouble(MHpoints[pina][i+2]);
@@ -195,7 +195,7 @@ public class BuildingActivity extends AppCompatActivity{
                                     if ((FSBpoints[i][0].equals(building))) {
                                         pina = i;
                                         npoints = Integer.parseInt(FSBpoints[i][1]);
-                                        Toast.makeText(BuildingActivity.this, FSBpoints[i][1], Toast.LENGTH_LONG).show();
+                                        //Toast.makeText(BuildingActivity.this, FSBpoints[i][1], Toast.LENGTH_LONG).show();
 
                                     }
                                 }
@@ -232,7 +232,7 @@ public class BuildingActivity extends AppCompatActivity{
                                     if ((JPLpoints[i][0].equals(building))) {
                                         pina = i;
                                         npoints = Integer.parseInt(JPLpoints[i][1]);
-                                        Toast.makeText(BuildingActivity.this, JPLpoints[i][1], Toast.LENGTH_LONG).show();
+                                       // Toast.makeText(BuildingActivity.this, JPLpoints[i][1], Toast.LENGTH_LONG).show();
 
                                     }
                                 }
@@ -269,7 +269,7 @@ public class BuildingActivity extends AppCompatActivity{
                                     if ((RWCpoints[i][0].equals(building))) {
                                         pina = i;
                                         npoints = Integer.parseInt(RWCpoints[i][1]);
-                                        Toast.makeText(BuildingActivity.this, RWCpoints[i][1], Toast.LENGTH_LONG).show();
+                                        //Toast.makeText(BuildingActivity.this, RWCpoints[i][1], Toast.LENGTH_LONG).show();
 
                                     }
                                 }
@@ -341,8 +341,8 @@ public class BuildingActivity extends AppCompatActivity{
                 }
             }
         }
-        Toast.makeText(BuildingActivity.this,String.valueOf(latmy),Toast.LENGTH_LONG).show();
-        Toast.makeText(BuildingActivity.this,String.valueOf(lonmy),Toast.LENGTH_LONG).show();
+        //Toast.makeText(BuildingActivity.this,String.valueOf(latmy),Toast.LENGTH_LONG).show();
+       // Toast.makeText(BuildingActivity.this,String.valueOf(lonmy),Toast.LENGTH_LONG).show();
 
         p = new LatLng(ltt,lngg);
         MainActivity.curbuilding = buildingmy;
