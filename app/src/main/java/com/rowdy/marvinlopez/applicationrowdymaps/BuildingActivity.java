@@ -100,8 +100,8 @@ public class BuildingActivity extends AppCompatActivity{
                        // MainActivity.mMap.clear();
 
                        // PolylineOptions polylineOptions = new PolylineOptions();
-                        if(friendselect.route3 != null){
-                            friendselect.route3.remove();
+                        if(friendselect.route != null){
+                            friendselect.route.remove();
                             friendselect.marker.remove();
                         }
 
